@@ -5,32 +5,6 @@ date:   2016-01-07 14:46:00 +0800
 categories: jekyll update
 ---
 
-# EvoStream Media Server
-# Quick Start Guide on Linux
-## V1.00
-
-**Table Of Contents**
-
-**I.** *Purpose*
-
-**II.** *Getting EvoStream Media Server*
-
-1. Linux Archive
-2. APT/YUM
-
-**III.** *License Installation*
-
-1. Manual
-2. Via Web UI
-
-**IV.** *Connecting to Telnet*
-
-**V.** *Basic EMS API*
-
-1. Adding a Stream
-2. Stream Playback
-3. Stopping the EMS server
-
 ## Purpose
 
 This document provides instructions on how to install EvoStream Media Server (EMS) on Linux operating systems. It also provides instructions for some basic features of the EMS such as starting EMS, pulling, playing source streams and shutting down the EMS.
