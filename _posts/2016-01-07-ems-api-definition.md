@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "EMS API Definitions"
-date:   2016-01-07 16:18:00 +0800
+date:   2016-01-11 20:00:00 +0800
 categories: jekyll update
 ---
 
@@ -140,8 +140,7 @@ categories: jekyll update
       - fileDownloaded
    6. Event Table of Protocol Types
 
-Document Definitions
-====================
+# Document Definitions
 
 | TERM     | DEFINITION                                                                                                                                                                                                                                                                                                                                 |
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -169,20 +168,15 @@ Document Definitions
 | **URL**    | Uniform Resource Locator. This is a specific form of the URI used for web browsing (http://ip/page).                                                                                                                                                                                                                                       |
 | **VOD**    | Video On Demand                                                                                                                                                                                                                                                                                                                            |
 
----
-
-Overview
-========
+# Overview
 
 This document describes the Application Programming Interface (API) and the Event Notification System presented by the EvoStream Media Server (EMS). The API provides the ability to manipulate the server at runtime. The server can be told to retrieve or create new streams, return information on streams and connections, or even start or stop functional services. The Event Notification System provides a means for the EMS to alert users of certain events that occur within the EMS, such as a new stream is created, a stream has been dropped, server stopped, etc. The EvoStream Media Server API and Event Notification System allows users to tightly integrate with the server without having to write native plugins or modules.
 
-Run-Time API
-============
+# Run-Time API
 
 While the EMS has a "great" User Interface, users typically interact with the EMS through the Run-Time API. This API, which is used by the UI, provides a whole suite of ways to interact with the EMS. It can be used to create custom User Interfaces, hook the EMS up to existing systems, integrate it with other pieces of software and much more!
 
-Accessing the Runtime API
--------------------------
+## Accessing the Runtime API
 
 ### ASCII
 
@@ -190,43 +184,41 @@ The ASCII interface is often the first interface used by users. It can be access
 
 To access the API via the telnet interface, a telnet application will need to be launched on the same computer that the EMS is running on. The command to open telnet from a command prompt should look something like the following:
 
-```
-telnet localhost 1112
-```
+    telnet localhost 1112
 
 **Note:**
 
+***Turning Telnet Feature On***
+
 Telnet may need to be enabled using Windows® operating systems. To do this, go to the *Control Panel -> Programs -> Turn Windows Features on and off*. Turn the Telnet Client program on.
 
-1.	***Turning Telnet Feature On***
+Please also note that on Windows®, the default telnet behavior will need to be changed. The local echo and new line mode should be set for proper behavior. Once telnet is launched, exit the telnet session by typing `CTRL`+`]`. Then enter the following commands:
 
-Please also note that on Windows®, the default telnet behavior will need to be changed. The local echo and new line mode should be set for proper behavior. Once telnet is launched, exit the telnet session by typing "**ctrl+]**". Then enter the following commands:
+    set localecho
+    set crlf
 
-```
-set localecho
-set crlf
-```
-
-To return to the Windows® telnet session, press **Enter** / **Return** key.
+To return to the Windows® telnet session, press `Enter` or `Return` key.
 
 Once the telnet session is established, type out the desired commands which will be immediately executed on the server after the Enter/Return key is pressed.
 
 An example of a command request and response from a telnet session would be the following:
 
-| **Request**  | version                                                                                                                                                                 |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Response** | {"data":{"banner":"EvoStream Media Server (www.evostream.com) version 1.7.0. build 4153 with hash: c50ee04ec98886ed1f54d599355e04346bf50df0 on branch: develop - PacMan |
+**Request**  
 
--	**JSON**
+    version
+
+**Response**
+
+    {"data":{"banner":"EvoStream Media Server (www.evostream.com) version 1.7.0. build 4153 with hash: c50ee04ec98886ed1f54d599355e04346bf50df0 on branch: develop - PacMan|m|-(built on 2015-11-03T01:50:37.000)","branchName":"develop","buildDate":1446515437,"buildNumber":"4153","codeName":"PacMan|m|","hash":"c50ee04ec98886ed1f54d599355e04346bf50df0","releaseNumber":"1.7.0."},"description":"Version","status":"SUCCESS"}
+
+-	**JSON PARSER**
 
 When using the regular ASCII interface, it may be necessary to use a JSON interpreter so that responses can be more human-readable. JSON parsers are available online.
 
 
 ### ASCII CLI
 
-```
-telnet localhost 1222
-```
+    telnet localhost 1222
 
 This is the user friendly version of the ASCII telnet interface. It offers a readable response without having to parse the JSON results. To access this interface from the command prompt, execute the following:
 
@@ -234,11 +226,19 @@ However, since the objective of this interface is simplicity, there are some par
 
 An example of a command request and response from an ASCLII CLI telnet session would be the following:
 
-| **Request**                                                                                                                                                  | version                              |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| **Response**                                                                                                                                                 | Command entered successfully!Version |
-| banner: EvoStream Media Server (www.evostream.com) version 1.7.0. build 4153 with hash: 4ab5d9145ae3b4b3dfeb3af5ce6890f015824974 on branch: develop - PacMan | m                                    |
+**Request**  
 
+    version
+
+**Response**
+
+    Command entered successfully!
+    Version
+      banner: EvoStream Media Server (www.evostream.com) version 1.7.0. build 4153 with hash: 4ab5d9145ae3b4b3dfeb3af5ce6890f015824974 on branch: develop - PacMan|m| - (built on 2015-11-06T08:24:32.000)
+      buildDate: 2015-11-03T01:50:37.000
+      buildNumber: 4153
+      codeName: PacMan|m|
+      releaseNumber: 1.7.0.
 
 ### HTTP
 
@@ -246,66 +246,61 @@ To access the API via the HTTP interface, simply make an HTTP request on the ser
 
 A general http format request would be the following:
 
-```
-http://[EMS IP]:7777/[API]
-```
+    http://[EMS IP]_[API]
 
 An example of a command request and response from an HTTP session would be the following:
 
-| **Request**  | http://localhost:7777/version                                                                                                                                           |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Response** | {"data":{"banner":"EvoStream Media Server (www.evostream.com) version 1.7.0. build 4153 with hash: 4ab5d9145ae3b4b3dfeb3af5ce6890f015824974 on branch: develop - PacMan |
+**Request**
 
-```
-http://IP:7777/[API]?params=([base64 encoded parameters])
-```
+    http://localhost:7777/version
+
+**Response**
+
+
+    {"data":{"banner":"EvoStream Media Server (www.evostream.com) version 1.7.0. build 4153 with hash: c50ee04ec98886ed1f54d599355e04346bf50df0 on branch: develop - PacMan|m|-(built on 2015-11-03T01:50:37.000)","branchName":"develop","buildDate":1446515437,"buildNumber":"4153","codeName":"PacMan|m|","hash":"c50ee04ec98886ed1f54d599355e04346bf50df0","releaseNumber":"1.7.0."},"description":"Version","status":"SUCCESS"}
 
 All of the API functions are available via HTTP, but the request must be formatted slightly different if parameters are included. To make an API call over HTTP, the parameters to be used should be in base64 format.
 
-Sampling a **pullstream** command: 1. Type in the parameters first:
+    http://IP/[API]?params=([base64 encoded parameters])
 
-```
-(firstParam=XXX secondParam=YYY…)
-(uri=rtsp://localhost:5544/vod/mp4.bunny.mp4 localStreamName=bunny)
-```
+Sampling a **pullstream** command:
 
-1.	Convert the parameters using a base64 encoder:
+- Type in the parameters first:
 
-**Converted parameter:**
+        (firstParam=XXX secondParam=YYY…)
+        (uri=rtsp://localhost:5544/vod/mp4.bunny.mp4 localStreamName=bunny)
 
-```
-dXJpPXJ0c3A6Ly9sb2NhbGhvc3Q6NTU0NC92b2QvbXA0LmJ1bm55Lm1wNCBsb2NhbHN0cmVhbW5hbWU9YnVubnkp
-```
+- Convert the parameters using a base64 encoder:
 
-1.	The corresponding request in HTTP format would be:
+  **Converted parameter:**
 
-```
-http://localhost:7777/pullstream?params= dXJpPXJ0c3A6Ly9sb2NhbGhvc3Q6NTU0NC92b2QvbXA0LmJ1bm55Lm1wNCBsb2NhbHN0cmVhbW5hbWU9YnVubnkp
-```
+        dXJpPXJ0c3A6Ly9sb2NhbGhvc3Q6NTU0NC92b2QvbXA0LmJ1bm55Lm1wNCBsb2NhbHN0cmVhbW5hbWU9YnVubnkp
+
+- The corresponding request in HTTP format would be:
+
+      http://localhost:7777/pullstream?params= dXJpPXJ0c3A6Ly9sb2NhbGhvc3Q6NTU0NC92b2QvbXA0LmJ1bm55Lm1wNCBsb2NhbHN0cmVhbW5hbWU9YnVubnkp
 
 -	**Base64**
 
-A group of similar binary-to-text encoding schemes that represent binary data in an [ASCII](https://en.wikipedia.org/wiki/ASCII) string format by translating it into a [radix](https://en.wikipedia.org/wiki/Radix)-64 representation. There are available base64 encoders online to get the encoded result.
+  A group of similar binary-to-text encoding schemes that represent binary data in an [ASCII](https://en.wikipedia.org/wiki/ASCII) string format by translating it into a [radix](https://en.wikipedia.org/wiki/Radix)-64 representation. There are available base64 encoders online to get the encoded result.
 
 -	**PHP and JavaScript**
 
-PHP and JavaScript functions are also provided. These functions simply wrap the HTTP interface calls and can be found in the EMS Web UI directory.
+  PHP and JavaScript functions are also provided. These functions simply wrap the HTTP interface calls and can be found in the EMS Web UI directory.
 
 -	**Securing the API**
 
-By default, the ASCII API is protected and access from any outside computer is prohibited. This can of course be modified within the config.lua file, but keeping this restriction is recommended for maintaining server security.
+  By default, the ASCII API is protected and access from any outside computer is prohibited. This can of course be modified within the config.lua file, but keeping this restriction is recommended for maintaining server security.
 
 The HTTP based API is also restricted by default to only local access. However, unlike the ASCII API interface, there are often good reasons to expose the HTTP API. To secure the HTTP based API in this case, you will enable Proxy Authentication on the EWS (details found in the EWS section of this doc). This will enforce that a valid username and password be provided for each and every API call made, ensuring on authorized access to the EMS API.
 
-
-Configuring and Receiving Event Notifications
----------------------------------------------
+## Configuring and Receiving Event Notifications
 
 The EvoStream Media Server (EMS) generates notifications based upon events that occur at runtime. These events are formatted as HTTP calls and can be delivered to any address and port desired.
 
 Event Notifications are **disabled** by default and must be enabled by modifying the EMS config file: config.lua.
 
-To enable Event Notifications you will need to Enable/Uncomment the *eventLogger* section of the config.lua file. *Comments in LUA are specified by either a "--" for a single line, or denoted by a "--\[[" to start a comment block and a "]]--" to end a comment block. By default the eventLogger section is commented out using block style comments, so you will need to remove both the* "**--\[\[**" *and* "**]]--**" *strings.* See the Configuration Files section for more information.
+To enable Event Notifications you will need to Enable/Uncomment the *eventLogger* section of the config.lua file. *Comments in LUA are specified by either a `--` for a single line, or denoted by a `--[[` to start a comment block and a `]]--` to end a comment block. By default the eventLogger section is commented out using block style comments, so you will need to remove both the* `--[[` *and* `]]--` *strings.* See the Configuration Files section for more information.
 
 ### Sinks
 
@@ -315,38 +310,28 @@ To receive HTTP based Event Notifications, an RPC type sink must be defined (and
 
 For any Sink, users can define an array of *enabledEvents*. When this array is present, ONLY the events listed will be sent to that sink. If this array is not present, ALL events will be sent to the sink. The full list of events can be found later in this document.
 
----
-
-User Defined Variables
-----------------------
+## User Defined Variables
 
 While the EMS provides an extensive set of API functions, there may be times where the variables provided are not sufficient, or where you may need extra information to be associated with individual streams. To support these needs, the EMS API implements User Defined Variables. User Defined Variables can be used with any API function where information is maintained by the EMS (i.e. pulling a stream, creating a timer, starting a transcode job, etc.).
 
-To specify a User Defined Variable, you simply need to append a '\_' to the beginning of your variable name. The User Defined variables are reported back whenever you get information about the command: listStreams, listConfig, Event Notifications, etc.
+To specify a User Defined Variable, you simply need to append a '_' to the beginning of your variable name. The User Defined variables are reported back whenever you get information about the command: listStreams, listConfig, Event Notifications, etc.
 
 Some common use cases for User Defined Variables are as follows:
 
-1.	Setting a timer to stop a stream after a set period of time
+- Setting a timer to stop a stream after a set period of time
 
-```
-setTimer value=120 \_streamName=MyStreamsetTimer value=120 \_streamID=5
-```
+        setTimer value=120 _streamName=MyStreamsetTimer value=120 _streamID=5
 
-pullstream uri=rtmp://192.168.1.5/live/myStream localstreamname=test1 \_myID=5 \_myName=secretSquirrel
+        pullstream uri=rtmp://192.168.1.5/live/myStream localstreamname=test1 _myID=5 _myName=secretSquirrel
 
 These commands will fire a timer event after 120 seconds with the set stream name or stream id respectively.
 
-1.	Attach a custom identifier to a local stream
-2.	Set a custom value on a pushed stream
+- Attach a custom identifier to a local stream
+- Set a custom value on a pushed stream
 
-```
-pushstream uri=rtmp://192.168.1.5/live/myStream localstreamname=test1 \_myID=5 \_myName=secretSquirrel
-```
+        pushstream uri=rtmp://192.168.1.5/live/myStream localstreamname=test1 _myID=5 _myName=secretSquirrel
 
----
-
-Streams vs Stream Configs and API Command Return Values
--------------------------------------------------------
+## Streams vs Stream Configs and API Command Return Values
 
 Issuing commands to the EvoStream Media Server is an Asynchronous event. This means that a successfully issued command will not actually be executed immediately. It will instead be Queued for execution. While this generally transparent for the user, there is an important ramification of this reality:
 
@@ -368,8 +353,7 @@ Streams are the active streams currently managed by EMS. They may or may not hav
 
 **To summarize the above:** _ **streamID** _ **is different from** _ **configID** _ **because they signify two different kinds of entities.**
 
-EvoStream Media Server API
-==========================
+# EvoStream Media Server API
 
 The EMS API can be broken down into a few groups of functionality. The first group, and the one most often used, is Stream Manipulation. The other groups are Connection Details and Services which are discussed later in the document.
 
@@ -395,8 +379,7 @@ To use, simply add commandID=<value> as an additional parameter
 | "responseId" :"0101","status":"SUCCESS" |                                              |
 
 
-Streams
--------
+## Streams
 
 Streams are considered to be the actual video and/or audio feeds that are coming from, or going to, the EMS. Streams can be sent over a wide variety of protocols. The following functions are provided to manipulate and query Streams:
 
@@ -419,8 +402,8 @@ This function has the following parameters:
 | swfUrl                | false                                                    | *(zero-length string)*    | When specified, this value will be used to set the originating swf URL in the initial RTMP connect invoke                                                                                                                                                                                                                                                                                  |
 | rangeStart            | false                                                    | *-2*                      | For RTSP and RTMP connections. A value from which the playback should start expressed in seconds. There are 2 special values: -2 and -1. For more information, please read about start/len parameters here: [http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html](http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html) |
 | rangeEnd              | false                                                    | *-1*                      | The length in seconds for the playback. -1 is a special value. For more information, please read about start/len parameters here: [http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html](http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html)                                                                           |
-| ttl                   | false                                                    | operating system supplied | Sets the IP\_TTL (time to live) option on the socket                                                                                                                                                                                                                                                                                                                                       |
-| tos                   | false                                                    | operating system supplied | Sets the IP\_TOS (Type of Service) option on the socket                                                                                                                                                                                                                                                                                                                                    |
+| ttl                   | false                                                    | operating system supplied | Sets the IP_TTL (time to live) option on the socket                                                                                                                                                                                                                                                                                                                                       |
+| tos                   | false                                                    | operating system supplied | Sets the IP_TOS (Type of Service) option on the socket                                                                                                                                                                                                                                                                                                                                    |
 | rtcpDetectionInterval | false                                                    | 10                        | How much time (in seconds) should the server wait for RTCP packets before declaring the RTSP stream as a RTCP-less stream                                                                                                                                                                                                                                                                  |
 | emulateUserAgent      | false                                                    | *(EvoStream message)*     | When specified, this value will be used as the user agent string. It is meaningful only for RTMP.                                                                                                                                                                                                                                                                                          |
 | isAudio               | true if uri is RTP, otherwise false                      | *1 (true)*                | If 1 and if the stream is RTP, it indicates that the currently pulled stream is an audio source. Otherwise the pulled source is assumed as a video source.                                                                                                                                                                                                                                 |
@@ -444,19 +427,15 @@ The EMS provides several shorthand User Agent strings (not case-sensitive) for c
 
 An example of the pullStream interface is:
 
-```
-pullStream uri=rtsp://AddressOfStream keepAlive=1 localStreamname=RTSPtest
-```
+    pullStream uri=rtsp://AddressOfStream keepAlive=1 localStreamname=RTSPtest
 
-rtsp://AddressOfEMS:5544/RTSPtest
+    rtsp://AddressOfEMS:5544/RTSPtest
 
-pullStream uri=rtmp://AddressOfStream keepAlive=1 localStreamname=RTMPtest
+    pullStream uri=rtmp://AddressOfStream keepAlive=1 localStreamname=RTMPtest
 
 Then, to access that stream via a flash player, the following URI can be used:
 
-```
-rtmp://AddressOfEMS/live/RTMPtest
-```
+    rtmp://AddressOfEMS/live/RTMPtest
 
 | API           | pullstream uri=rtmp://s2pchzxmtymn2k.cloudfront.net/cfx/st/mp4:sintel.mp4 localStreamname=testpullstream                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -465,7 +444,6 @@ rtmp://AddressOfEMS/live/RTMPtest
 The JSON response for pullStream contains the following details:
 
 -	data – The data to parse.
-
 	-	audioCodecBytes - The audio codec setup of this RTP stream if it is audio
 	-	configID – The configuration ID for this command
 	-	emulateUserAgent – This is the string that the EMS uses to identify itself with the other server. It can be modified so that EMS identifies itself as, say, a Flash Media Server
@@ -480,7 +458,7 @@ The JSON response for pullStream contains the following details:
 	-	rangeEnd - The length in seconds for the playback
 	-	rangeStart - A value from which the playback should start expressed in seconds
 	-	rtcpDetectionInterval – Used for RTSP. This is the time period the EMS waits to determine if an RTCP connection is available for the RTSP/RTP stream. (RTSP is used for synchronization between audio and video).
-	-	sendRenewStream – If 1, the server will send RenewStream via SET\_PARAMETER when a new client connects
+	-	sendRenewStream – If 1, the server will send RenewStream via SET_PARAMETER when a new client connects
 	-	spsBytes - The video SPS bytes of this RTP stream if it is video
 	-	ssmIp - The source IP from source-specific-multicast
 	-	swfUrl – The location of the Flash Client that is generating the stream (if any)
@@ -505,9 +483,7 @@ The JSON response for pullStream contains the following details:
 	-	portSpecified – True if the port for the source stream is specified.
 	-	scheme – The protocol used by the source stream.
 	-	userName – The user name for authenticating the source stream (if required).
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### pushStream
@@ -518,7 +494,7 @@ This will try to push a local stream to an external destination. The pushed stre
 |------------------------|---------------|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | uri                    | true          | *(null)*                  | The URI of the destination point (without stream name).                                                                                                                                                                                                                    |
 | localStreamName        | true          | *(computed)*              | If provided, the stream will be given this name. Otherwise, a fallback technique is used to determine the stream name (based on the URI).                                                                                                                                  |
-| tos                    | false         | operating system supplied | Sets the IP\_TOS (Type of Service) option on the socket.                                                                                                                                                                                                                   |
+| tos                    | false         | operating system supplied | Sets the IP_TOS (Type of Service) option on the socket.                                                                                                                                                                                                                   |
 | keepAlive              | false         | 1 *(true)*                | If keepAlive is set to 1, the server will attempt to reestablish connection with a stream source after a connection has been lost. The reconnect will be attempted once every second.                                                                                      |
 | targetStreamName       | false         | *(null)*                  | The name of the stream at destination. If not provided, the target stream name will be the same as the local stream name.                                                                                                                                                  |
 | targetStreamType       | false         | Live                      | It can be one of following: live, record, append. It is meaningful only for RTMP.                                                                                                                                                                                          |
@@ -527,15 +503,13 @@ This will try to push a local stream to an external destination. The pushed stre
 | swfUrl                 | false         | *(zero-length string)*    | When specified, this value will be used to set the originating swf URL in the initial RTMP connect invoke                                                                                                                                                                  |
 | pageUrl                | false         | *(zero-length string)*    | When specified, this value will be used to set the originating web page address in the initial RTMP connect invoke.                                                                                                                                                        |
 | tcUrl                  | false         | *(zero-length string)*    | When specified, this value will be used to set the TC URL in the initial RTMP connect invoke                                                                                                                                                                               |
-| ttl                    | false         | operating system supplied | Sets the IP\_TTL (Time To Live) option on the socket.                                                                                                                                                                                                                      |
+| ttl                    | false         | operating system supplied | Sets the IP_TTL (Time To Live) option on the socket.                                                                                                                                                                                                                      |
 | sendChunkSizeRequest   | false         | *1 (true)*                | Sets whether the RTMP stream will or will not send a "Set Chunk Length" message. This is significant when pushing to Akamai's new RTMP HD ingest point where this parameter should be set to 0 so that Akamai will not drop the connection.                                |
 | useSourcePts           | false         | *0 (false)*               | When value is 1 (true), timestamps on source inbound RTMP stream are passed directly to the outbound (pushed) RTMP streams. This affects only pushed Outbound Net RTMP with net RTMP source. This parameter overrides the value of the config.lua option of the same name. |
 
 An example of the pullStream interface is:
 
-```
-pushStream uri=rtmp://DestinationAddress keepAlive=1 localStreamname=pushtest
-```
+    pushStream uri=rtmp://DestinationAddress keepAlive=1 localStreamname=pushtest
 
 | API           | pushStream uri=rtmp://127.0.0.1 localStreamName=testpullStream targetStreamName=testpushStream                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -544,7 +518,6 @@ pushStream uri=rtmp://DestinationAddress keepAlive=1 localStreamname=pushtest
 The JSON response contains the following details:
 
 -	data – The data to parse.
-
 	-	configID – The configuration ID for this command
 	-	emulateUserAgent – This is the string that the EMS uses to identify itself with the other server. It can be modified so that EMS identifies itself as, say, a Flash Media Server.
 	-	forceTcp – Whether TCP MUST be used, or if UDP can be used.
@@ -579,9 +552,7 @@ The JSON response contains the following details:
 	-	tcUrl – An RTMP parameter that is essentially a copy of the URI.
 	-	tos – Type of Service network flag.
 	-	ttl – Time To Live network flag.
-
 -	description – Describes the result of parsing/executing the command.
-
 	-	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### createHLSStream
@@ -592,47 +563,38 @@ This function has the following parameters:
 
 | **Parameter Name**   | **Mandatory** | **Default Value**                                              | **Description**                                                                                                                                                                                                                                                                     |
 |----------------------|---------------|----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| localStreamNames     | true          | *(null)*                                                       | The stream(s) that will be used as the input. This is a comma-delimited list of active stream names (local stream names).                                                                                                                                                           |
-| targetFolder         | true          | *(null)*                                                       | The folder where all the \*.ts/\*.m3u8 files will be stored. This folder must be accessible by the HLS clients. It is usually in the web-root of the server.                                                                                                                        |
-| keepAlive            | false         | 1 *(true)*                                                     | If true, the EMS will attempt to reconnect to the stream source if the connection is severed.                                                                                                                                                                                       |
-| overwriteDestination | false         | 1 *(true)*                                                     | If true, it will force overwrite of destination files.                                                                                                                                                                                                                              |
-| staleRetentionCount  | false         | *(if not specified, it will have the value of playlistLength)* | The number of old files kept besides the ones listed in the current version of the playlist. Only applicable for rolling playlists.                                                                                                                                                 |
-| createMasterPlaylist | false         | 1 *(true)*                                                     | If true, a master playlist will be created.                                                                                                                                                                                                                                         |
-| cleanupDestination   | false         | 0 *(false)*                                                    | If 1 (true), all \*.ts and \*.m3u8 files in the target folder will be removed before HLS creation is started.                                                                                                                                                                       |
-| bandwidths           | false         | 0                                                              | The corresponding bandwidths for each stream listed in localStreamNames. Again, this can be a comma-delimited list.                                                                                                                                                                 |
-| groupName            | false         | *(it will be a random name in the form of hls\_group\_xxxx)*   | The name assigned to the HLS stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name.                                                                                     |
-| playlistType         | false         | appending                                                      | Either `appending` or `rolling`.                                                                                                                                                                                                                                                    |
-| playlistLength       | false         | 10                                                             | The length (number of elements) of the playlist. Used only when playlistType is `rolling`. Ignored otherwise.                                                                                                                                                                       |
-| playlistName         | false         | playlist.m3u8                                                  | The file name of the playlist (\*.m3u8).                                                                                                                                                                                                                                            |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
+| localStreamNames     | true          | *(null)*  | The stream(s) that will be used as the input. This is a comma-delimited list of active stream names (local stream names). |
+| targetFolder         | true          | *(null)*  | The folder where all the \*.ts/\*.m3u8 files will be stored. This folder must be accessible by the HLS clients. It is usually in the web-root of the server.  |
+| keepAlive            | false         | 1 *(true)* | If true, the EMS will attempt to reconnect to the stream source if the connection is severed.  |
+| overwriteDestination | false         | 1 *(true)*  | If true, it will force overwrite of destination files.  |
+| staleRetentionCount  | false         | *(if not specified, it will have the value of playlistLength)* | The number of old files kept besides the ones listed in the current version of the playlist. Only applicable for rolling playlists.  |
+| createMasterPlaylist | false         | 1 *(true)*  | If true, a master playlist will be created.  |
+| cleanupDestination   | false         | 0 *(false)*  | If 1 (true), all \*.ts and \*.m3u8 files in the target folder will be removed before HLS creation is started. |
+| bandwidths           | false         | 0  | The corresponding bandwidths for each stream listed in localStreamNames. Again, this can be a comma-delimited list. |
+| groupName            | false         | *(it will be a random name in the form of hls_group_xxxx)*   | The name assigned to the HLS stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
+| playlistType         | false         | appending  | Either `appending` or `rolling`. |
+| playlistLength       | false         | 10  | The length (number of elements) of the playlist. Used only when playlistType is `rolling`. Ignored otherwise. |
+| playlistName         | false         | playlist.m3u8  | The file name of the playlist (\*.m3u8). |
 | chunkLength          | false         | 10                                                             | The length (in seconds) of each playlist element (\*.ts file). Minimum value is 1 (second).                                                                                                                                                                                         |
 | maxChunkLength       | false         | 0                                                              | This parameter represents the maximum length, in seconds, the EMS will allow any single chunk to be. This is primarily in the case of chunkOnIDR=true where the EMS will wait for the next key-frame.If the maxChunkLength is less than chunkLength, the parameter shall be ignored |
-| chunkBaseName        | false         | segment                                                        | The base name used to generate the \*.ts chunks.                                                                                                                                                                                                                                    |
-| chunkOnIDR           | false         | 1 *(true)*                                                     | If true, chunking is performed ONLY on IDR. Otherwise, chunking is performed whenever chunk length is achieved.                                                                                                                                                                     |
-| drmType              | false         | None                                                           | Sets the type of DRM encryption to use. Options are: none (no encryption), evo (AES Encryption), verimatrix (Verimatrix DRM).For Verimatrix DRM, the "drm" section of the config.lua file must be active and properly configured.                                                   |
-| AESKeyCount          | false         | 5                                                              | Specifies the number of keys that will be automatically generated and rotated over while encrypting this HLS stream.                                                                                                                                                                |
-| audioOnly            | false         | 0 *(false)*                                                    | Specifies if the resulting stream will be audio only. A value of 1(true) will result in a stream without video.                                                                                                                                                                     |
-| hlsResume            | false         | 0 *(false)*                                                    | If 1 (true), HLS will resume in appending segments to previously created child playlist even in cases of EMS shutdown or cut off stream source.                                                                                                                                     |
-| useByteRange         |               |                                                                |                                                                                                                                                                                                                                                                                     |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
-| fileLength           |               |                                                                |                                                                                                                                                                                                                                                                                     |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
-|                      |               |                                                                |                                                                                                                                                                                                                                                                                     |
+| chunkBaseName        | false         | segment | The base name used to generate the \*.ts chunks. |
+| chunkOnIDR           | false         | 1 *(true)* | If true, chunking is performed ONLY on IDR. Otherwise, chunking is performed whenever chunk length is achieved. |
+| drmType              | false         | None | Sets the type of DRM encryption to use. Options are: none (no encryption), evo (AES Encryption), verimatrix (Verimatrix DRM).For Verimatrix DRM, the "drm" section of the config.lua file must be active and properly configured. |
+| AESKeyCount          | false         | 5 | Specifies the number of keys that will be automatically generated and rotated over while encrypting this HLS stream. |
+| audioOnly            | false         | 0 *(false)* | Specifies if the resulting stream will be audio only. A value of 1(true) will result in a stream without video.  |
+| hlsResume            | false         | 0 *(false)* | If 1 (true), HLS will resume in appending segments to previously created child playlist even in cases of EMS shutdown or cut off stream source.  |
+| useByteRange         | .             | .          | .          |
+| fileLength           | .             | .          | .          |
 
 An example of the createHLSStream interface is:
 
 The corresponding link to use on an iOS device to pull this stream would then be:
 
-```
-createHLSStream localstreamnames=hlstest bandwidths=128 targetfolder=/MyWebRoot/ groupname=hls playlisttype=rolling playlistLength=10 chunkLength=5
-```
+    createHLSStream localstreamnames=hlstest bandwidths=128 targetfolder=/MyWebRoot/ groupname=hls playlisttype=rolling playlistLength=10 chunkLength=5
 
-http://My_IP_or_Domain/hls/playlist.m3u8
+    http://My_IP_or_Domain/hls/playlist.m3u8
 
-In other words: http://<my\_web\_server>/<HLS\_group\_name>/<playlist\_file\_name>
+In other words: `http://<my_web_server>/<HLS_group_name>/<playlist_file_name>`
 
 | API           | createHLSStream localstreamnames=testpullStream bandwidths=128 targetfolder=../evo-webroot groupname=hls playlisttype=rolling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -641,7 +603,6 @@ In other words: http://<my\_web\_server>/<HLS\_group\_name>/<playlist\_file\_nam
 The JSON response contains the following details:
 
 -	data – The data to parse.
-
 	-	AESKeyCount - the number of keys that will be automatically generated and rotated over while encrypting this HLS stream
 	-	audioOnly - If true, the EMS will only stream audio
 	-	bandwidths – An array of integers specifying the bandwidths used for streaming.
@@ -670,9 +631,7 @@ The JSON response contains the following details:
 	-	targetFolder – The folder where all the \*.ts/\*.m3u8 files are stored.
 	-	useByteRange - ??
 	-	useSystemTime- ??
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### createHDSStream
@@ -689,7 +648,7 @@ This function has the following parameters:
 | chunkBaseName        | false         | f4v                                                          | The base name used to generate the fragments. The default value follows this format: f4vSeg1-FragXXX.                                                                                           |
 | chunkLength          | false         | 10                                                           | The length (in seconds) of fragments to be made. Minimum value is 1 (second).                                                                                                                   |
 | chunkOnIDR           | false         | 1 *(true)*                                                   | If true, chunking is performed ONLY on IDR. Otherwise, chunking is performed whenever chunk length is achieved.                                                                                 |
-| groupName            | false         | *(it will be a random name in the form of hds\_group\_xxxx)* | The name assigned to the HDS stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
+| groupName            | false         | *(it will be a random name in the form of hds_group_xxxx)* | The name assigned to the HDS stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
 | keepAlive            | false         | 1 *(true)*                                                   | If true, the EMS will attempt to reconnect to the stream source if the connection is severed.                                                                                                   |
 | manifestName         | false         | defaults to stream name                                      | The manifest file name.                                                                                                                                                                         |
 | overwriteDestination | false         | 1 *(true)*                                                   | If true, it will allow overwrite of destination files.                                                                                                                                          |
@@ -701,15 +660,13 @@ This function has the following parameters:
 
 An example of the createHDSStream interface is:
 
-```
-createHDSStream localstreamnames=hdstest bandwidths=128 targetfolder=/MyWebRoot/ groupname=hds rolling=true rollingLimit=10 chunkLength=5
-```
+    createHDSStream localstreamnames=hdstest bandwidths=128 targetfolder=/MyWebRoot/ groupname=hds rolling=true rollingLimit=10 chunkLength=5
 
-http://My_IP_or_Domain/hds/manifest.f4m
+    http://My_IP_or_Domain/hds/manifest.f4m
 
 The corresponding link to use on an HDS player (e.g. OSMF) to pull this stream would then be:
 
-In other words: http://<my\_web\_server>/<HDS\_group\_name>/<manifest\_file\_name>
+In other words: `http://<my_web_server>/<HDS_group_name>/<manifest_file_name>`
 
 | API           | createHDSStream localstreamnames=testpullStream targetfolder=../evo-webroot groupname=hds playlisttype=rolling                                                                                                                                                                                                                                                                                                                                  |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -718,7 +675,6 @@ In other words: http://<my\_web\_server>/<HDS\_group\_name>/<manifest\_file\_nam
 The JSON response contains the following details:
 
 -	data – The data to parse.
-
 	-	bandwidths – An array of integers specifying the bandwidths used for streaming.
 	-	chunkBaseName – The base name or prefix used for naming the output HDS chunks.
 	-	chunkLength – The length (in seconds) of each playlist element (.f4m files).
@@ -735,9 +691,7 @@ The JSON response contains the following details:
 	-	playlistType – Either `appending` or `rolling`.
 	-	staleRetentionCount – The number of old files kept besides the ones listed in the current version of the playlist. Only applicable for rolling playlists.
 	-	targetFolder – The folder where all the manifest (\*.f4m) and fragment (f4v\*) files are stored.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### createMSSStream
@@ -751,7 +705,7 @@ This function has the following parameters:
 | localStreamNames     | true          | *(null)*                                                     | The stream(s) that will be used as the input. This is a comma-delimited list of active stream names (local stream names).                                                                       |
 | targetFolder         | true          | *(null)*                                                     | The folder where all the manifest and fragment files will be stored. This folder must be accessible by the MSS clients. It is usually in the web-root of the server.                            |
 | bandwidths           | false         | 0                                                            | The corresponding bandwidths for each stream listed in localStreamNames. Again, this can be a comma-delimited list.                                                                             |
-| groupName            | false         | *mss\_group\_xxxx (random)*                                  | The name assigned to the MSS stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
+| groupName            | false         | *mss_group_xxxx (random)*                                  | The name assigned to the MSS stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
 | playlistType         | false         | Appending                                                    | Either `appending` or `rolling`                                                                                                                                                                 |
 | playlistLength       | false         | 10                                                           | The number of fragments before the server starts to overwrite the older fragments. Used only when playlistType is 'rolling'. Ignored otherwise.                                                 |
 | manifestName         | false         | 'manifest.ismc'                                              | The manifest file name                                                                                                                                                                          |
@@ -764,20 +718,18 @@ This function has the following parameters:
 
 An example of the createMSSStream interface is:
 
-```
-createMSSStream localstreamnames=msstest bandwidth=128 targetfolder=/MyWebRoot/ groupname=group1 chunkLength=10
-```
+    createMSSStream localstreamnames=msstest bandwidth=128 targetfolder=/MyWebRoot/ groupname=group1 chunkLength=10
 
 To playback the created MSS stream, use a Smooth Streaming player such as one of the following:
 
 -	[http://smf.cloudapp.net/healthmonitor](http://smf.cloudapp.net/healthmonitor)
 -	[http://playready.directtaps.net/pr/doc/slee/](http://playready.directtaps.net/pr/doc/slee/)
 
-http://My_IP_or_Domain/group1/manifest
+    http://My_IP_or_Domain/group1/manifest
 
 Enter the following stream URL:
 
-In other words: http://<my\_web\_server>/<MSS\_group\_name>/<manifest\_file\_name>
+In other words: `http://<my_web_server>/<MSS_group_name>/<manifest_file_name>`
 
 | API           | createMSSStream localstreamnames=testpullStream targetfolder=../evo-webroot groupname=mss                                                                                                                                                                                                                                                                                                                                                      |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -786,7 +738,6 @@ In other words: http://<my\_web\_server>/<MSS\_group\_name>/<manifest\_file\_nam
 The JSON response contains the following details:
 
 -	data – The data to parse.
-
 	-	bandwidths – An array of integers specifying the bandwidths used for streaming.
 	-	chunkLength – The length (in seconds) of each playlist element (.ismc files)
 	-	chunkOnIdr – If true, chunking was made on IDR boundary.
@@ -802,9 +753,7 @@ The JSON response contains the following details:
 	-	playlistType – Either `appending` or `rolling`.
 	-	staleRetentionCount – The number of old files kept besides the ones listed in the current version of the manifest. Only applicable to rolling playlist type.
 	-	targetFolder – The folder where all the manifest and chunk files are stored.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### createDASHStream
@@ -819,7 +768,7 @@ This function has the following parameters:
 |                      | true          | *(null)*                                                     | The stream(s) that will be used as the input. This is a comma-delimited list of active stream names (local stream names).                                                                        |
 | targetFolder         | true          | *(null)*                                                     | The folder where all the manifest and fragment files will be stored. This folder must be accessible by the DASH clients. It is usually in the web-root of the server.                            |
 | bandwidths           | false         | 0                                                            | The corresponding bandwidths for each stream listed in localStreamNames. Again, this can be a comma-delimited list.                                                                              |
-| groupName            | false         | *dash\_group\_xxxx (random)*                                 | The name assigned to the DASH stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
+| groupName            | false         | *dash_group_xxxx (random)*                                 | The name assigned to the DASH stream or group. If the localStreamNames parameter contains only one entry and groupName is not specified, groupName will have the value of the input stream name. |
 | playlistType         | false         | appending                                                    | Either `appending` or `rolling`                                                                                                                                                                  |
 | playlistLength       | false         | 10                                                           | The number of fragments before the server starts to overwrite the older fragments. Used only when playlistType is 'rolling'. Ignored otherwise.                                                  |
 | manifestName         | false         | 'manifest.mpd'                                               | The manifest file name                                                                                                                                                                           |
@@ -833,25 +782,19 @@ This function has the following parameters:
 
 An example of the createDASHStream interface is:
 
-```
-createDASHStream localstreamnames=dashtest bandwidth=128 targetfolder=/MyWebRoot/ groupname=group1 rolling=true rollingLimit=10 chunkLength=10
-```
+    createDASHStream localstreamnames=dashtest bandwidth=128 targetfolder=/MyWebRoot/ groupname=group1 rolling=true rollingLimit=10 chunkLength=10
 
 To playback the created DASH stream, use a DASH player such as the following:
 
-```
-http://digitalprimates.net/dash/dashTest.html
-```
+    http://digitalprimates.net/dash/dashTest.html
 
 This player is the most stable for EMS DASH playback but it doesn't support live profile for EMS DASH.
 
 Enter the following stream URL:
 
-```
-http://My\_IP\_or\_Domain/group1/manifest.mpd
-```
+    http://My_IP_or_Domain/group1/manifest.mpd
 
-In other words: http://<my\_web\_server>/<dash\_group\_name>/<manifest\_file\_name>
+In other words: `http://<my_web_server>/<dash_group_name>/<manifest_file_name>`
 
 An alternative DASH player, GPAC Osmo4, can be downloaded from here:
 
@@ -870,7 +813,6 @@ Another DASH player, Dash.as, can be downloaded from here:
 The JSON response contains the following details:
 
 -	data – The data to parse.
-
 	-	bandwidths – An array of integers specifying the bandwidths used for streaming.
 	-	chunkLength – The length (in seconds) of each playlist element (.mpd files)
 	-	chunkOnIdr – If true, chunking was made on IDR boundary.
@@ -886,9 +828,7 @@ The JSON response contains the following details:
 	-	playlistType – Either `appending` or `rolling`.
 	-	staleRetentionCount – The number of old files kept besides the ones listed in the current version of the manifest. Only applicable to rolling playlist type.
 	-	targetFolder – The folder where all the manifest and chunk files are stored.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### record
@@ -911,9 +851,7 @@ Streams can be recorded as FLV files, MPEG-TS files or as MP4 files.
 
 An example of the record interface is:
 
-```
-record localStreamName=video1 pathtofile=/recording/path type=mp4 overwrite=1
-```
+    record localStreamName=video1 pathtofile=/recording/path type=mp4 overwrite=1
 
 This records the local stream named video1 to directory /recording/path in mp4 format with overwrite enabled.
 
@@ -961,8 +899,8 @@ This function has the following parameters:
 |-----------------------------|---------------|----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | source                      | true          | *(null)*                         | Can be a URI or a local stream name from EMS.                                                                                                                                                                                                                |
 | destinations                | true          | *(null)*                         | The target URI(s) or stream name(s) of the transcoded stream. If only a name is given, it will be pushed back to the EMS.                                                                                                                                    |
-| targetStreamNames           | false         | transcoded\_xxxx (timestamp)     | The name of the stream(s) at destination(s). If not specified, and a full URI is provided to destinations, name will have a time stamped value.                                                                                                              |
-| groupName                   | false         | transcoded\_group\_xxxx (random) | The group name assigned to this process. If not specified, groupName will have a random value.                                                                                                                                                               |
+| targetStreamNames           | false         | transcoded_xxxx (timestamp)     | The name of the stream(s) at destination(s). If not specified, and a full URI is provided to destinations, name will have a time stamped value.                                                                                                              |
+| groupName                   | false         | transcoded_group_xxxx (random) | The group name assigned to this process. If not specified, groupName will have a random value.                                                                                                                                                               |
 | videoBitrates               | false         | input video's bitrate            | Target output video bitrate(s) (in bits/s, append 'k' to value for kbits/s). Accepts the value 'copy' to copy the input bitrate. An empty value passed would mean no video.                                                                                  |
 |                             |               |                                  |                                                                                                                                                                                                                                                              |
 | videoSizes                  | false         | input video's size               | Target output video size(s) in wxh (width x height) format. IE: 240x480                                                                                                                                                                                      |
@@ -977,53 +915,43 @@ This function has the following parameters:
 
 An example of the transcode command is:
 
-```
-transcode source=rtmp://<RTMP server>/live/streamname groupName=group videoBitrates=200k destinations=stream1
-```
+    transcode source=rtmp://<RTMP server>/live/streamname groupName=group videoBitrates=200k destinations=stream1
 
-```
-transcode source=rtmp://<RTMP server>/live/streamname groupName=group videoBitrates=100k,200k,300k destinations=stream100,stream200,stream300
-```
+    transcode source=rtmp://<RTMP server>/live/streamname groupName=group videoBitrates=100k,200k,300k destinations=stream100,stream200,stream300
 
 **Transcode Examples:**
 
 To transcode an RTMP source into different video bitrates and send back to EMS
 
-```
-transcode source=stream1 groupName=group audioBitrates=copy audioChannelsCounts=1 destinations=rtmp://<RTMP server 2> targetStreamNames=streamMono
-```
+    transcode source=stream1 groupName=group audioBitrates=copy audioChannelsCounts=1 destinations=rtmp://<RTMP server 2> targetStreamNames=streamMono
 
 To transcode an existing EMS stream into a different audio channel count and send to an RTMP server
 
-```
-transcode source=file://C:\videos\test.mp4 groupName=group videoBitrates=100k audioBitrates=copy destinations=file://C:\videos\out.mp4
-```
+    transcode source=file://C:\videos\test.mp4 groupName=group videoBitrates=100k audioBitrates=copy destinations=file://C:\videos\out.mp4
 
 To use files as input and/or output
 
-```
-transcode source=rtsp://<RTSP server>/live/streamname groupName=group videoBitrates=copy videoSizes=360x200 $EMS\_RTSP\_TRANSPORT=tcp
-```
+    transcode source=rtsp://<RTSP server>/live/streamname groupName=group videoBitrates=copy videoSizes=360x200 $EMS_RTSP_TRANSPORT=tcp
 
 To force TCP for inbound RTSP
 
-```
-removeConfig groupName=group
-```
+    removeConfig groupName=group
 
 To stop a running transcoding process(es)
 
 **Transcoding Customizations:**
 
-transcoder = { scriptPath="emsTranscoder", srcUriPrefix="rtsp://localhost:5544/", dstUriPrefix="-f flv tcp://localhost:6666/" },
+    transcoder = { scriptPath="emsTranscoder", srcUriPrefix="rtsp://localhost:5544/", dstUriPrefix="-f flv tcp://localhost:6666/" },
 
 To configure the transcoder script settings, edit the file **config.lua** and edit the following entries as needed:
 
 To change the location of the actual trancoder binary, edit the file **emsTranscoder.sh** (linux/unix) and **emsTranscoder.cmd** (windows); and change the following line:
 
-TRANSCODER\_BIN=/usr/bin/evo-avconv (linux/unix)
+    TRANSCODER_BIN=/usr/bin/evo-avconv (linux/unix)
 
-set TRANSCODER\_BIN=..\evo-avconv.exe (windows)
+or
+
+    set TRANSCODER_BIN=..\evo-avconv.exe (windows)
 
 | API           | transcode source=rtmp://s2pchzxmtymn2k.cloudfront.net/cfx/st/mp4:sintel.mp4 groupName=group videoBitrates=200k destinations=stream1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1032,7 +960,6 @@ set TRANSCODER\_BIN=..\evo-avconv.exe (windows)
 The JSON response contains the following details:
 
 -	data – The data to parse.
-
 	-	audioAdvancedParamsProfiles - An array of strings specifying the name of profile presets to be used for audio
 	-	audioBitrates - An array of integers for target audio output bitrates
 	-	audioChannelsCounts - An array of values for the target number of audio channels
@@ -1051,9 +978,7 @@ The JSON response contains the following details:
 	-	videoAdvancedParamsProfiles - An array of strings specifying the name of profile presets to be used for video
 	-	videoBitrates - An array of values for target video output bitrates
 	-	videoSizes - An array of values for target video sizes
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### listStreamsIds
@@ -1083,12 +1008,11 @@ Returns a detailed set of information about a stream
 
 | API           | getStreamInfo id=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | {"data":{"appName":"evostreamms","audio":{"bytesCount":168860,"codec":"AAAC","codecNumeric":4702111241970122752,"droppedBytesCount":0,"droppedPacketsCount":0," packetsCount":521},"bandwidth":0,"connectionType":1,"creationTimestamp":14480039 54598.3130,"farIp":"54.239.131.151","farPort":1935,"ip":"192.168.2.35","name":"t estpullstream","nearIp":"192.168.2.35","nearPort":1299,"outStreamsUniqueIds":null,"pageUrl":"","port":1299,"processId":12848,"processType":"origin","pullSetting s":{"\_callback":*null*,"audioCodecBytes":"","configId":1,"emulateUserAgent":"EvoSt ream Media Server (www.evostream.com) player","forceTcp":false,"httpProxy":"","isAudio":true,"keepAlive":true,"localStreamName":"testpullstream","operationType":1,"pageUrl":"","ppsBytes":"","rangeEnd":-1,"rangeStart":-2,"rtcpDetectionInterv al":10,"sendRenewStream":false,"spsBytes":"","ssmIp":"","swfUrl":"","tcUrl":"","tos":256,"ttl":256,"uri":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:s intel.mp4"},"queryTimestamp":1448003961907.7310,"serverAgent":"FMS\/3,5,7,7009","swfUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4","tcUr l":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4","type":"INR ","typeNumeric":5282249572905648128,"uniqueId":1,"upTime":7309.4180,"video":{"bytesCount":825054,"codec":"VH264","codecNumeric":6217274493967007744,"droppedByte sCount":0,"droppedPacketsCount":0,"height":306,"level":30,"packetsCount":291,"profile":66,"width":720}},"description":"Stream information","status":"SUCCESS"} |
+| JSON Response | {"data":{"appName":"evostreamms","audio":{"bytesCount":168860,"codec":"AAAC","codecNumeric":4702111241970122752,"droppedBytesCount":0,"droppedPacketsCount":0," packetsCount":521},"bandwidth":0,"connectionType":1,"creationTimestamp":14480039 54598.3130,"farIp":"54.239.131.151","farPort":1935,"ip":"192.168.2.35","name":"t estpullstream","nearIp":"192.168.2.35","nearPort":1299,"outStreamsUniqueIds":null,"pageUrl":"","port":1299,"processId":12848,"processType":"origin","pullSetting s":{"_callback":*null*,"audioCodecBytes":"","configId":1,"emulateUserAgent":"EvoSt ream Media Server (www.evostream.com) player","forceTcp":false,"httpProxy":"","isAudio":true,"keepAlive":true,"localStreamName":"testpullstream","operationType":1,"pageUrl":"","ppsBytes":"","rangeEnd":-1,"rangeStart":-2,"rtcpDetectionInterv al":10,"sendRenewStream":false,"spsBytes":"","ssmIp":"","swfUrl":"","tcUrl":"","tos":256,"ttl":256,"uri":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:s intel.mp4"},"queryTimestamp":1448003961907.7310,"serverAgent":"FMS\/3,5,7,7009","swfUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4","tcUr l":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4","type":"INR ","typeNumeric":5282249572905648128,"uniqueId":1,"upTime":7309.4180,"video":{"bytesCount":825054,"codec":"VH264","codecNumeric":6217274493967007744,"droppedByte sCount":0,"droppedPacketsCount":0,"height":306,"level":30,"packetsCount":291,"profile":66,"width":720}},"description":"Stream information","status":"SUCCESS"} |
 
 The JSON response contains the following details about a given stream:
 
 -	data – The data to parse.
-
 	-	appName - ??
 	-	audio – stats about the audio portion of the stream.
 	-	bytesCount - Total amount of audio data received.
@@ -1112,7 +1036,7 @@ The JSON response contains the following details about a given stream:
 	-	processID - ??
 	-	preocessType - ??
 	-	pullSettings/pushSettings – Not present for streams requested by a 3rd party (IE player/client). A copy of the parameters used in the **pullStream** or **pushStream** command.
-	-	\_callback - ??
+	-	_callback - ??
 	-	audioCodecBytes - The audio codec setup of this RTP stream if it is audio
 	-	configId – The identifier for the pullPushConfig.xml entry.
 	-	emulateUserAgent – The string that the EMS uses to identify itself with the other server. It can be modified so that EMS identifies itself as, say, a Flash Media Server.
@@ -1127,7 +1051,7 @@ The JSON response contains the following details about a given stream:
 	-	rangeEnd - The length in seconds for the playback
 	-	rangeStart - A value from which the playback should start expressed in seconds
 	-	rtcpDetectionInterval – Used for RTSP. This is the time period the EMS waits to determine if an RTCP connection is available for the RTSP/RTP stream. (RTSP is used for synchronization between audio and video).
-	-	sendRenewStream - If 1, the server will send RenewStream via SET\_PARAMETER when a new client connects
+	-	sendRenewStream - If 1, the server will send RenewStream via SET_PARAMETER when a new client connects
 	-	spsBytes - The video SPS bytes of this RTP stream if it is video
 	-	swfUrl – The location of the Flash Client that is generating the stream (if any)
 	-	tcUrl – An RTMP parameter that is essentially a copy of the URI
@@ -1157,9 +1081,7 @@ The JSON response contains the following details about a given stream:
 	-	packetsCount – Total number of video packets received.
 	-	profile - ??
 	-	width - The video stream's pixel width
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### listStreams
@@ -1172,12 +1094,11 @@ Provides a detailed description of all active streams.
 
 | API           | listStreams                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | {"data":[{"appName":"evostreamms","audio":{"bytesCount":727893,"codec":"AAAC","codecNumeric":4702111241970122752,"droppedBytesCount":0,"droppedPacketsCount":0,"packetsCount":2243},"bandwidth":0,"connectionType":1,"creationTimestamp":14480 05740350.4519,"edgePid":0,"farIp":"54.239.131.224","farPort":1935,"ip":"192.168. 2.35","name":"testpullstream","nearIp":"192.168.2.35","nearPort":1607,"outStream sUniqueIds":*null*,"pageUrl":"","port":1607,"processId":12848,"processType":"origi n","pullSettings":{"\_callback":*null*,"audioCodecBytes":"","configId":1,"emulateUs erAgent":"EvoStream Media Server (www.evostream.com) player","forceTcp":false,"httpProxy":"","isAudio":true,"keepAlive":true,"localStreamName":"testpullstream","operationType":1,"pageUrl":"","ppsBytes":"","rangeEnd":-1,"rangeStart":-2,"rtcp DetectionInterval":10,"sendRenewStream":false,"spsBytes":"","ssmIp":"","swfUrl":"","tcUrl":"","tos":256,"ttl":256,"uri":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\ /cfx\/st\/mp4:sintel.mp4"},"queryTimestamp":1448005784755.9919,"serverAgent":"FM S\/3,5,7,7009","swfUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:si ntel.mp4","tcUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.m p4","type":"INR","typeNumeric":5282249572905648128,"uniqueId":36,"upTime":44405.5400,"video":{"bytesCount":4881934,"codec":"VH264","codecNumeric":62172744939670 07744,"droppedBytesCount":0,"droppedPacketsCount":0,"height":306,"level":30,"pac ketsCount":1255,"profile":66,"width":720}}],"description":"Available streams","status":"SUCCESS"} |
+| JSON Response | {"data":[{"appName":"evostreamms","audio":{"bytesCount":727893,"codec":"AAAC","codecNumeric":4702111241970122752,"droppedBytesCount":0,"droppedPacketsCount":0,"packetsCount":2243},"bandwidth":0,"connectionType":1,"creationTimestamp":14480 05740350.4519,"edgePid":0,"farIp":"54.239.131.224","farPort":1935,"ip":"192.168. 2.35","name":"testpullstream","nearIp":"192.168.2.35","nearPort":1607,"outStream sUniqueIds":*null*,"pageUrl":"","port":1607,"processId":12848,"processType":"origi n","pullSettings":{"_callback":*null*,"audioCodecBytes":"","configId":1,"emulateUs erAgent":"EvoStream Media Server (www.evostream.com) player","forceTcp":false,"httpProxy":"","isAudio":true,"keepAlive":true,"localStreamName":"testpullstream","operationType":1,"pageUrl":"","ppsBytes":"","rangeEnd":-1,"rangeStart":-2,"rtcp DetectionInterval":10,"sendRenewStream":false,"spsBytes":"","ssmIp":"","swfUrl":"","tcUrl":"","tos":256,"ttl":256,"uri":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\ /cfx\/st\/mp4:sintel.mp4"},"queryTimestamp":1448005784755.9919,"serverAgent":"FM S\/3,5,7,7009","swfUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:si ntel.mp4","tcUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.m p4","type":"INR","typeNumeric":5282249572905648128,"uniqueId":36,"upTime":44405.5400,"video":{"bytesCount":4881934,"codec":"VH264","codecNumeric":62172744939670 07744,"droppedBytesCount":0,"droppedPacketsCount":0,"height":306,"level":30,"pac ketsCount":1255,"profile":66,"width":720}}],"description":"Available streams","status":"SUCCESS"} |
 
 The JSON response contains the following details about each stream:
 
 -	data – The data to parse.
-
 	-	appName - ??
 	-	audio – stats about the audio portion of the stream.
 	-	bytesCount – Total amount of audio data received.
@@ -1204,7 +1125,7 @@ The JSON response contains the following details about each stream:
 	-	port - The port bound to the service
 	-	processId - ??
 	-	processType - ??
-	-	pullSettings/pushSettings – *Not present for streams requested by a 3\__rd* *party (IE player/client).* A copy of the parameters used in the **pullStream** or **pushStream** command.
+	-	pullSettings/pushSettings – *Not present for streams requested by a 3__rd* *party (IE player/client).* A copy of the parameters used in the **pullStream** or **pushStream** command.
 	-	configId – The identifier for the pullPushConfig.xml entry.
 	-	emulateUserAgent – The string that the EMS uses to identify itself with the other server. It can be modified so that EMS identifies itself as, say, a Flash Media Server.
 	-	forceTcp – Whether TCP MUST be used, or if UDP can be used.
@@ -1218,7 +1139,7 @@ The JSON response contains the following details about each stream:
 	-	rangeEnd - The length in seconds for the playback
 	-	rangeStart - A value from which the playback should start expressed in seconds
 	-	rtcpDetectionInterval – Used for RTSP. This is the time period the EMS waits to determine if an RTCP connection is available for the RTSP/RTP stream. (RTSP is used for synchronization between audio and video).
-	-	sendRenewStream - If 1, the server will send RenewStream via SET\_PARAMETER when a new client connects
+	-	sendRenewStream - If 1, the server will send RenewStream via SET_PARAMETER when a new client connects
 	-	spsBytes - The video SPS bytes of this RTP stream if it is video
 	-	ssmIp - The source IP from source-specific-multicast
 	-	swfUrl – The location of the Flash Client that is generating the stream (if any).
@@ -1249,9 +1170,7 @@ The JSON response contains the following details about each stream:
 	-	packetsCount – Total number of video packets received.
 	-	profile - ??
 	-	width - The video stream's pixel width.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### getStreamsCount
@@ -1283,9 +1202,7 @@ This function has the following parameters:
 | localStreamName    | true          | "" *(zero length String)* | The name of the inbound stream which you wish to terminate. This will also terminate any outbound streams that are dependent upon this input stream. This parameter is not mandatory but either this or the id should be present to identify the particular stream. |
 | permanently        | false         | 1 *(true)*                | If true, the corresponding push/pull configuration will also be terminated. Therefore, the stream will NOT be reconnected when the server restarts.                                                                                                                 |
 
-```
-shutdownstream id=55 permanently=1
-```
+    shutdownstream id=55 permanently=1
 
 An example of the shutdownStream interface is:
 
@@ -1293,16 +1210,13 @@ This will shut down the stream with id of 55 and remove its push/pull configurat
 
 | API           | shutdownstream id=55                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | {"data":{"protocolStackInfo":{"carrier":{"farIP":"54.239.131.57","farPort":1935,"id":601,"nearIP":"192.168.2.35","nearPort":2326,"rx":3077367,"tx":3653,"type":"IOHT\_TCP\_CARRIER"},"stack":[{"applicationId":0,"creationTimestamp":1448008702269.8640,"id":794,"isEnqueueForDelete":false,"queryTimestamp":1448008724139.1150," type":"TCP"},{"applicationId":1,"creationTimestamp":1448008702269.8640,"id":795,"isEnqueueForDelete":false,"queryTimestamp":1448008724139.1150,"rxInvokes":31,"serverAgent":"FMS\/3,5,7,7009","streams":[{"appName":"evostreamms","audio":{"bytesCount":348883,"codec":"AAAC","codecNumeric":4702111241970122752,"droppedBytesCo unt":0,"droppedPacketsCount":0,"packetsCount":1068},"bandwidth":0,"connectionTyp e":1,"creationTimestamp":1448008702871.8989,"farIp":"54.239.131.57","farPort":1935,"ip":"192.168.2.35","name":"testpullstream","nearIp":"192.168.2.35","nearPort ":2326,"outStreamsUniqueIds":[91],"pageUrl":"","port":2326,"processId":12848,"processType":"origin","pullSettings":{"\_callback":*null*,"audioCodecBytes":"","configId":1,"emulateUserAgent":"EvoStream Media Server (www.evostream.com) player","forceTcp":false,"httpProxy":"","isAudio":true,"keepAlive":true,"localStreamName":"testpullstream","operationType":1,"pageUrl":"","ppsBytes":"","rangeEnd":-1,"ran geStart":-2,"rtcpDetectionInterval":10,"sendRenewStream":false,"spsBytes":"","ss mIp":"","swfUrl":"","tcUrl":"","tos":256,"ttl":256,"uri":"rtmp:\/\/s2pchzxmtymn2 k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4"},"queryTimestamp":1448008724139.1150,"serverAgent":"FMS\/3,5,7,7009","swfUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net \/cfx\/st\/mp4:sintel.mp4","tcUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\ /st\/mp4:sintel.mp4","type":"INR","typeNumeric":5282249572905648128,"uniqueId":95,"upTime":21267.2161,"video":{"bytesCount":2698244,"codec":"VH264","codecNumeri c":6217274493967007744,"droppedBytesCount":0,"droppedPacketsCount":0,"height":306,"level":30,"packetsCount":596,"profile":66,"width":720}}],"txInvokes":7,"type":"OR"}]},"streamInfo":{*--Same with streams group*}}},"description":"Stream closed","status":"SUCCESS"} |
+| JSON Response | {"data":{"protocolStackInfo":{"carrier":{"farIP":"54.239.131.57","farPort":1935,"id":601,"nearIP":"192.168.2.35","nearPort":2326,"rx":3077367,"tx":3653,"type":"IOHT_TCP_CARRIER"},"stack":[{"applicationId":0,"creationTimestamp":1448008702269.8640,"id":794,"isEnqueueForDelete":false,"queryTimestamp":1448008724139.1150," type":"TCP"},{"applicationId":1,"creationTimestamp":1448008702269.8640,"id":795,"isEnqueueForDelete":false,"queryTimestamp":1448008724139.1150,"rxInvokes":31,"serverAgent":"FMS\/3,5,7,7009","streams":[{"appName":"evostreamms","audio":{"bytesCount":348883,"codec":"AAAC","codecNumeric":4702111241970122752,"droppedBytesCo unt":0,"droppedPacketsCount":0,"packetsCount":1068},"bandwidth":0,"connectionTyp e":1,"creationTimestamp":1448008702871.8989,"farIp":"54.239.131.57","farPort":1935,"ip":"192.168.2.35","name":"testpullstream","nearIp":"192.168.2.35","nearPort ":2326,"outStreamsUniqueIds":[91],"pageUrl":"","port":2326,"processId":12848,"processType":"origin","pullSettings":{"_callback":*null*,"audioCodecBytes":"","configId":1,"emulateUserAgent":"EvoStream Media Server (www.evostream.com) player","forceTcp":false,"httpProxy":"","isAudio":true,"keepAlive":true,"localStreamName":"testpullstream","operationType":1,"pageUrl":"","ppsBytes":"","rangeEnd":-1,"rangeStart":-2,"rtcpDetectionInterval":10,"sendRenewStream":false,"spsBytes":"","ssmIp":"","swfUrl":"","tcUrl":"","tos":256,"ttl":256,"uri":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4"},"queryTimestamp":1448008724139.1150,"serverAgent":"FMS\/3,5,7,7009","swfUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4","tcUrl":"rtmp:\/\/s2pchzxmtymn2k.cloudfront.net\/cfx\/st\/mp4:sintel.mp4","type":"INR","typeNumeric":5282249572905648128,"uniqueId":95,"upTime":21267.2161,"video":{"bytesCount":2698244,"codec":"VH264","codecNumeric":6217274493967007744,"droppedBytesCount":0,"droppedPacketsCount":0,"height":306,"level":30,"packetsCount":596,"profile":66,"width":720}}],"txInvokes":7,"type":"OR"}]},"streamInfo":{*--Same with streams group*}}},"description":"Stream closed","status":"SUCCESS"} |
 
 The JSON response contains the following details about the stream being shut down:
 
 -	data – The data to parse.
-
 	-	protocolStackInfo – Contains key/value pairs describing the protocol stack used by the stream.
-
 	-	carrier – Details about the connection itself.
-
 		-	farIP – The IP address of the distant party
 		-	farPort – The port used by the distant party
 		-	nearIP – The IP address used by the local computer
@@ -1310,18 +1224,14 @@ The JSON response contains the following details about the stream being shut dow
 		-	rx – Total bytes received on this connection.
 		-	tx – Total bytes transferred on this connection.
 		-	type – The connection type (TCP, UDP) .
-
 	-	stack[1] – Describes the farthest protocol primitive.
-
 		-	applicationID – the ID of the internal application using the connection.
 		-	creationTimestamp – The time (in UNIX seconds) when the application started using the connection.
 		-	id – The unique ID for this stack relation.
 		-	isEnqueueForDelete – Internal flag used for cleanup.
 		-	queryTimestamp – The time (in UNIX seconds) when this data was populated.
 		-	type – A descriptor for how the application is using the connection.
-
 	-	stack[2] – Describes the next protocol primitive.
-
 		-	applicationId – the ID of the internal application using the connection.
 		-	creationTimestamp – The time (in UNIX seconds) when the application started using the connection.
 		-	id – The unique ID for this stack relation.
@@ -1329,7 +1239,6 @@ The JSON response contains the following details about the stream being shut dow
 		-	queryTimestamp – The time (in UNIX seconds) when this data was populated.
 		-	rxInvokes – Number of received RTMP function invokes.
 		-	streams[1]
-
 			-	audio – Stats about the audio portion of the stream.
 
 				-	bytesCount – Total amount of audio data received.
@@ -1338,32 +1247,20 @@ The JSON response contains the following details about the stream being shut dow
 				-	packetsCount – Total number of audio packets received.
 
 			-	bandwidth – The current bandwidth utilization of the stream.
-
 			-	canDropFrames – *Outstreams only*. Flag set by client allowing for dropped frames/packets.
-
 			-	creationTimestamp – The time (in UNIX secs) when the stream was created.
-
 			-	inStreamUniqueId – *For pushed streams.* The id of the source stream.
-
 			-	name – the "localstreamname" for this stream.
-
 			-	queryTimestamp – The time (in UNIX secs) when this data was populated.
-
 			-	type – The type of stream this is. See **getStreamInfo** for details.
-
 			-	uniqueId – The unique ID of the stream (integer).
-
 			-	upTime – The time in seconds that the stream has been alive/running for.
-
 			-	video
-
 				-	bytesCount – Total amount of video data received.
 				-	droppedBytesCount – The number of video bytes lost.
 				-	droppedPacketsCount – The number of lost video packets.
 				-	packetsCount – Total number of video packets received.
-
 		-	streams[2]
-
 			-	bandwidth – The current bandwidth utilization of the stream.
 			-	creationTimestamp – The time (in UNIX secs) when the stream was created.
 			-	name – the "localstreamname" for this stream.
@@ -1372,31 +1269,18 @@ The JSON response contains the following details about the stream being shut dow
 			-	type – The type of stream this is. See **getStreamInfo** for details.
 			-	uniqueId – The unique ID of the stream (integer).
 			-	uptime – The time in seconds that the stream has been alive/running for.
-
 		-	txInvokes – Number of sent RTMP function invokes.
-
 		-	type – A descriptor for how the application is using the connection.
-
 	-	streamInfo
-
 	-	bandwidth – The current bandwidth utilization of the stream.
-
 	-	creationTimestamp – The time (in UNIX seconds) when the stream was created.
-
 	-	name – the "localstreamname" for this stream.
-
 	-	outStreamsUniqueIds – *For pulled streams.* An array of the "out" stream IDs associated with this "in" stream.
-
 	-	queryTimestamp – The time (in UNIX seconds) when this data was populated.
-
 	-	type – The type of stream this is. See **getStreamInfo** for details.
-
 	-	uniqueId – The unique ID of the stream (integer).
-
 	-	upTime – The time in seconds that the stream has been alive/running for.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### listConfig
@@ -1414,7 +1298,6 @@ This function has no parameters.
 The JSON response contains the following details about the pull/push configuration:
 
 -	data – The data to parse.
-
 	-	hds (see fields of **createHDSStream** command)
 	-	hls (see fields of **createHLSStream** command)
 	-	mss (see fields of **createMSSStream** command)
@@ -1422,17 +1305,12 @@ The JSON response contains the following details about the pull/push configurati
 	-	pull (see fields of **pullStream** command)
 	-	push (see fields of **pushStream** command)
 	-	record (see fields of **record** command)
-
 	-	status (within the stream types shown above) – array of current and previous states
-
 	-	current/previous
-
 		-	code – An integer representing the state of the stream.
 		-	description – Describes the state of the stream.
 		-	timestamp – The time (in Unix secs) the state was updated.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### getConfigInfo
@@ -1447,7 +1325,7 @@ An example of the getConfigInfo interface is:
 
 | API           | getConfigInfo id=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | {"data":{"AESKeyCount":5,"audioOnly":false,"bandwidth":0,"chunkBaseName":"segment","chunkLength":10,"chunkOnIDR":true,"cleanupDestination":false,"cleanupOnClose ":false,"configId":1,"createMasterPlaylist":true,"drmType":"none","fileLength":0,"groupName":"HLS","groupTargetFolder":"..\/evo-webroot\\HLS\\","hlsResu me":false,"hlsVersion":3,"keepAlive":true,"localStreamName":"bunny","masterPlayl istPath":"..\/evo-webroot\\HLS\\playlist.m3u8","maxChunkLength":0,"offsetTim e":0,"operationType":3,"overwriteDestination":true,"playlistLength":10,"playlist Name":"playlist.m3u8","playlistType":"appending","staleRetentionCount":10,"start Offset":0,"status":{"current":{"code":0,"description":"Streaming","timestamp":1448958829,"uniqueStreamId":10},"previous":{"code":3,"description":"Connected","timestamp":1448958829,"uniqueStreamId":0}},"targetFolder":"..\/evo-webroot\\HLS\\test\_sintel","timestamp":1448955776495.1621,"useByteRange":false,"useSystemTime":false},"description":"Configuration Info","status":"SUCCESS"} |
+| JSON Response | {"data":{"AESKeyCount":5,"audioOnly":false,"bandwidth":0,"chunkBaseName":"segment","chunkLength":10,"chunkOnIDR":true,"cleanupDestination":false,"cleanupOnClose ":false,"configId":1,"createMasterPlaylist":true,"drmType":"none","fileLength":0,"groupName":"HLS","groupTargetFolder":"..\/evo-webroot\\HLS\\","hlsResu me":false,"hlsVersion":3,"keepAlive":true,"localStreamName":"bunny","masterPlayl istPath":"..\/evo-webroot\\HLS\\playlist.m3u8","maxChunkLength":0,"offsetTim e":0,"operationType":3,"overwriteDestination":true,"playlistLength":10,"playlist Name":"playlist.m3u8","playlistType":"appending","staleRetentionCount":10,"start Offset":0,"status":{"current":{"code":0,"description":"Streaming","timestamp":1448958829,"uniqueStreamId":10},"previous":{"code":3,"description":"Connected","timestamp":1448958829,"uniqueStreamId":0}},"targetFolder":"..\/evo-webroot\\HLS\\test_sintel","timestamp":1448955776495.1621,"useByteRange":false,"useSystemTime":false},"description":"Configuration Info","status":"SUCCESS"} |
 
 ### removeConfig
 
@@ -1470,12 +1348,9 @@ An example of the removeConfig interface is:
 The JSON response contains the following details about the pull/push configuration:
 
 -	data – The data to parse.
-
 	-	configId – The identifier for the pullPushConfig.xml entry.
 	-	Other fields present are dependent on stream type.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### startwebrtc
@@ -1492,9 +1367,7 @@ This function has the following parameters:
 
 An example of the startwebrtc interface is:
 
-```
-startwebrtc ersip=52.6.14.61 ersport=3535 roomid=ThisIsATestRoomName
-```
+    startwebrtc ersip=52.6.14.61 ersport=3535 roomid=ThisIsATestRoomName
 
 This will open port 3535 in IP 52.6.14.61 and will open doors for the room ID which can be accessed using the evowrtcclient.html
 
@@ -1537,8 +1410,7 @@ The JSON response contains the following details.
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 
-Aliasing
---------
+## Aliasing
 
 ### addStreamAlias
 
@@ -1558,9 +1430,7 @@ This function has the following parameters:
 
 An example of the addStreamAlias interface is:
 
-```
-addStreamAlias localStreamName=bunny aliasName=video1 expirePeriod=-300
-```
+    addStreamAlias localStreamName=bunny aliasName=video1 expirePeriod=-300
 
 | API           | addStreamAlias localStreamName=MyStream aliasName=video1 expirePeriod=-300                                                        |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------|
@@ -1569,13 +1439,10 @@ addStreamAlias localStreamName=bunny aliasName=video1 expirePeriod=-300
 The JSON response contains the following details:
 
 -	data – The data to parse
-
 	-	aliasName – The alias alternative to the localStreamName
 	-	expirePeriod – The expiration period for this alias
 	-	localStreamName – The original stream name
-
 -	description – Describes the result of parsing/executing the command
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not
 
 ### listStreamAliases
@@ -1591,16 +1458,13 @@ This function has no parameters.
 The JSON response contains the following details.
 
 -	data – Contains an array of pairs of aliasName and localStreamName.
-
 	-	aliasName – The alias alternative to the localStreamName.
 	-	creationTime – ??
 	-	expirePeriod - ??
 	-	localStreamName – The original stream name.
 	-	oneShot -
 	-	permanent -
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### removeStreamAlias
@@ -1615,9 +1479,7 @@ This function has the following parameters:
 
 An example of the removeStreamAlias interface is:
 
-```
-removeStreamAlias aliasName=video1
-```
+    removeStreamAlias aliasName=video1
 
 | API           | removeStreamAlias aliasName=video1                                                             |
 |---------------|------------------------------------------------------------------------------------------------|
@@ -1626,11 +1488,8 @@ removeStreamAlias aliasName=video1
 The JSON response contains the following details.
 
 -	data – The data to parse.
-
 	-	aliasName – The alias of the stream that was removed.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### flushStreamAliases
@@ -1666,9 +1525,7 @@ This function has the following parameters:
 
 An example of the addGroupNameAlias interface is:
 
-```
-addGroupNameAlias groupName=MyGroup aliasName=mygroupalias
-```
+    addGroupNameAlias groupName=MyGroup aliasName=mygroupalias
 
 This sets "mygroupalias" as the alias alternative for the group name "mygroup".
 
@@ -1769,9 +1626,7 @@ This function has the following parameters:
 
 An example of the removeGroupNameAlias interface is:
 
-```
-removeGroupNameAlias aliasName=myalias
-```
+    removeGroupNameAlias aliasName=myalias
 
 This removes the alias name "myalias".
 
@@ -1802,9 +1657,7 @@ This function has the following parameters:
 
 An example of the createIngestPoint interface is:
 
-```
-createIngestPoint privateStreamName=theIngestPoint publicStreamName=useMeToViewStream
-```
+    createIngestPoint privateStreamName=theIngestPoint publicStreamName=useMeToViewStream
 
 | API           | createIngestPoint privateStreamName=theIngestPoint publicStreamName=useMeToViewStream                                                          |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1813,12 +1666,9 @@ createIngestPoint privateStreamName=theIngestPoint publicStreamName=useMeToViewS
 The JSON response contains the following details.
 
 -	data – The data to parse.
-
 	-	privateStreamName –The privateStreamName which was set.
 	-	publicStreamName – The publicStreamName which was set
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### listIngestPoints
@@ -1834,15 +1684,10 @@ This function has no parameters
 The JSON response contains the following details.
 
 -	data – The data to parse.
-
 	-	List of pairs:
-
 	-	privateStreamName –The privateStreamName of the Ingest Point.
-
 	-	publicStreamName – The publicStreamName of the Ingest Point
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### removeIngestPoint
@@ -1857,9 +1702,7 @@ This function has the following parameters:
 
 An example of the removeIngestPoint interface is:
 
-```
-removeIngestPoint privateStreamName=theIngestPoint
-```
+    removeIngestPoint privateStreamName=theIngestPoint
 
 | API           | removeIngestPoint privateStreamName=theIngestPoint                                                                                                 |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1868,17 +1711,12 @@ removeIngestPoint privateStreamName=theIngestPoint
 The JSON response contains the following details.
 
 -	data – The data to parse.
-
 	-	privateStreamName –The privateStreamName of the deleted Ingest Point.
 	-	publicStreamName – The publicStreamName of the deleted Ingest Point
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
-
-Utility and Feature API Functions
----------------------------------
+## Utility and Feature API Functions
 
 ### launchProcess
 
@@ -1889,27 +1727,22 @@ Allows the user to launch an external process on the local machine. This can be 
 | fullBinaryPath     | true          | *(null)*             | The path to the executable                                                                                |
 | keepAlive          | false         | *1 (true)*           | If the process dies for any reason, the EMS will restart the external application when keepAlive is 1.    |
 | arguments          | false         | *Zero-length String* | Complete list of arguments that need to be passed to the process, **delimited by ESCAPED SPACES ("\ ").** |
-| groupName          |               |                      |                                                                                                           |
-|                    |               |                      |                                                                                                           |
-|                    |               |                      |                                                                                                           |
-|                    |               |                      |                                                                                                           |
-| $<ENV>=<VALUE>     | false         | *Zero-length String* | Any number of environment variables that need to be set just before launching the process                 |
+| groupName          | .             | .                    | .              |
+| $ENV=VALUE     | false         | *Zero-length String* | Any number of environment variables that need to be set just before launching the process |
 
 An example of the launchProcess command is:
 
-```
-launchProcess fullBinaryPath=/home/ems/ffmpeg\_preset.sh arguments=10fps\ Stream1\ Stream1\_10fps keepAlive=1 $SAMPLE\_E\_VAR=MyVal
-```
+    launchProcess fullBinaryPath=/home/ems/ffmpeg_preset.sh arguments=10fps\ Stream1\ Stream1_10fps keepAlive=1 $SAMPLE_E_VAR=MyVal
 
-This sample command launches a script, named ffmpeg\_prest.sh, which presumably contains a shell-script that will run FFMPEG with a specific set of parameters.
+This sample command launches a script, named ffmpeg_prest.sh, which presumably contains a shell-script that will run FFMPEG with a specific set of parameters.
 
-The arguments field passes the three values ("10fps", "Stream1", "Stream1\_10fps") to the ffmpeg\_preset.sh script. In this example, these parameters might tell this hypothetical script to transcode Stream1 to be only 10 frames-per-second, and then name the resultant stream "Stream1\_10fps".
+The arguments field passes the three values ("10fps", "Stream1", "Stream1_10fps") to the ffmpeg_preset.sh script. In this example, these parameters might tell this hypothetical script to transcode Stream1 to be only 10 frames-per-second, and then name the resultant stream "Stream1_10fps".
 
-The final parameter is an example for setting an environment variable (SAMPLE\_E\_VAR set to MyVal) on the command line prior to script/binary execution.
+The final parameter is an example for setting an environment variable (SAMPLE_E_VAR set to MyVal) on the command line prior to script/binary execution.
 
-| API           | launchProcess fullBinaryPath=/home/ems/ffmpeg\_preset.sh arguments=10fps\ Stream1\ Stream1\_10fps keepAlive=1 $SAMPLE\_E\_VAR=MyVal                                                                                     |
+| API           | launchProcess fullBinaryPath=/home/ems/ffmpeg_preset.sh arguments=10fps\ Stream1\ Stream1_10fps keepAlive=1 $SAMPLE_E_VAR=MyVal                                                                                     |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | { "data":{ "arguments":"", "configId":1, "fullBinaryPath":"d:\\run.bat", "groupName":"process\_group\_UHBqMT6C", "keepAlive":true, "operationType":6 }, "description":"Process enqueued for start", "status":"SUCCESS"} |
+| JSON Response | { "data":{ "arguments":"", "configId":1, "fullBinaryPath":"d:\\run.bat", "groupName":"process_group_UHBqMT6C", "keepAlive":true, "operationType":6 }, "description":"Process enqueued for start", "status":"SUCCESS"} |
 
 The JSON response contains the following details:
 
@@ -2017,8 +1850,8 @@ This function has the following parameters:
 | swfUrl                | false                                                    | *(zero-length string)*    | When specified, this value will be used to set the originating swf URL in the initial RTMP connect invoke                                                                                                                                                                                                                                                                                  |
 | rangeStart            | false                                                    | *-2*                      | For RTSP and RTMP connections. A value from which the playback should start expressed in seconds. There are 2 special values: -2 and -1. For more information, please read about start/len parameters here: [http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html](http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html) |
 | rangeEnd              | false                                                    | *-1*                      | The length in seconds for the playback. -1 is a special value. For more information, please read about start/len parameters here: [http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html](http://livedocs.adobe.com/flashmediaserver/3.0/hpdocs/help.html?content=00000185.html)                                                                           |
-| ttl                   | false                                                    | operating system supplied | Sets the IP\_TTL (time to live) option on the socket                                                                                                                                                                                                                                                                                                                                       |
-| tos                   | false                                                    | operating system supplied | Sets the IP\_TOS (Type of Service) option on the socket                                                                                                                                                                                                                                                                                                                                    |
+| ttl                   | false                                                    | operating system supplied | Sets the IP_TTL (time to live) option on the socket                                                                                                                                                                                                                                                                                                                                       |
+| tos                   | false                                                    | operating system supplied | Sets the IP_TOS (Type of Service) option on the socket                                                                                                                                                                                                                                                                                                                                    |
 | rtcpDetectionInterval | false                                                    | 10                        | How much time (in seconds) should the server wait for RTCP packets before declaring the RTSP stream as a RTCP-less stream                                                                                                                                                                                                                                                                  |
 | emulateUserAgent      | false                                                    | *(EvoStream message)*     | When specified, this value will be used as the user agent string. It is meaningful only for RTMP.                                                                                                                                                                                                                                                                                          |
 | isAudio               | true if uri is RTP, otherwise false                      | *1 (true)*                | If 1 and if the stream is RTP, it indicates that the currently pulled stream is an audio source. Otherwise the pulled source is assumed as a video source.                                                                                                                                                                                                                                 |
@@ -2029,13 +1862,11 @@ This function has the following parameters:
 | httpProxy             | false                                                    | *(zero-length string)*    | This parameter has two valid values:                                                                                                                                                                                                                                                                                                                                                       |
 
 1.	IP:Port – This value combination specifies an RTSP HTTP Proxy from which the RTSP stream should be pulled from
-2.	self – Specifying "self" as the value implies pulling **RTSP over HTTP**. | | sendRenewStream | false | *0 (false)* | If sendRenewStream is 1, the server will send RenewStream via SET\_PARAMETER when a new client connects. Only valid for RTSP URIs. | | keepAlive | false | *0 (false)* | If value is 1 (true), source stream will not shutdown even after all clients have hung up. |
+2.	self – Specifying "self" as the value implies pulling **RTSP over HTTP**. | | sendRenewStream | false | *0 (false)* | If sendRenewStream is 1, the server will send RenewStream via SET_PARAMETER when a new client connects. Only valid for RTSP URIs. | | keepAlive | false | *0 (false)* | If value is 1 (true), source stream will not shutdown even after all clients have hung up. |
 
 An example of the generateLazyPullFile interface is:
 
-```
-generateLazyPullFile uri=rtsp://AddressOfStream pathToFile=/MyFileDirectory/MyFile.vod
-```
+    generateLazyPullFile uri=rtsp://AddressOfStream pathToFile=/MyFileDirectory/MyFile.vod
 
 | API           | generateLazyPullFile uri=rtmp://s2pchzxmtymn2k.cloudfront.net/cfx/st/mp4:sintel.mp4 pathToFile=../media/testGenerateLazyPull                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2044,7 +1875,6 @@ generateLazyPullFile uri=rtsp://AddressOfStream pathToFile=/MyFileDirectory/MyFi
 The JSON response for generateLazyPullFile contains the following details:
 
 -	data – The data to parse.
-
 	-	audioCodecBytes - The audio codec setup of this RTP stream if it is audio. Represented as hex format without '0x' or 'h'.
 	-	emulateUserAgent – This is the string that the EMS uses to identify itself with the other server. It can be modified so that EMS identifies itself as, say, a Flash Media Server.
 	-	forceTcp – Whether TCP MUST be used, or if UDP can be used
@@ -2082,9 +1912,7 @@ The JSON response for generateLazyPullFile contains the following details:
 	-	portSpecified – True if the port for the source stream is specified.
 	-	scheme – The protocol used by the source stream.
 	-	userName – The user name for authenticating the source stream (if required).
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### generateServerPlaylist
@@ -2116,9 +1944,7 @@ This function has the following parameters:
 
 An example of the generateServerPlaylist interface is:
 
-```
-generateServerPlaylist sources=File1.mp4,livestream1,File2.mp4,livestream1 pathToFile=/MyFileDirectory/MyPlaylist.lst sourceOffsets=0,-1,0,-1 durations=-1,60,-1,-1
-```
+    generateServerPlaylist sources=File1.mp4,livestream1,File2.mp4,livestream1 pathToFile=/MyFileDirectory/MyPlaylist.lst sourceOffsets=0,-1,0,-1 durations=-1,60,-1,-1
 
 | API           | generateServerPlaylist sources=bunnyA.mp4,bunnyB.mp4 pathToFile=../media/testPlaylist sourceOffsets=0,-1 durations=-1,60                                                                                                     |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2127,14 +1953,11 @@ generateServerPlaylist sources=File1.mp4,livestream1,File2.mp4,livestream1 pathT
 The JSON response for generateServerPlaylist contains the following details:
 
 -	data – The data to parse
-
 	-	durations – An array of durations for each stream/file in the list, expressed in seconds.
 	-	pathToFile – The full path and filename of the playlist file.
 	-	sourceOffsets – An array of offsets for each stream/file in the list.
 	-	sources – An array of streams or media files.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 A typical response in parsed JSON format is shown here: generateServerPlaylist
@@ -2167,15 +1990,12 @@ An example of insertPlaylistItem interface is:
 The JSON response for generateServerPlaylist contains the following details:
 
 -	data – The data to parse
-
 	-	duration – An array of durations for each stream/file in the list, expressed in seconds.
 	-	insertPoint - The absolute time in milliseconds on the playlist timeline where the insertion will occur
 	-	localStreamName – The name of the live stream or file that needs to be inserted
 	-	playlistName - The name of the \*.lst file into which the stream will be inserted
 	-	sourceOffsets – An array of offsets for each stream/file in the list.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### uploadMedia
@@ -2199,9 +2019,7 @@ The sending client must conform to the following:
 
 An example of the uploadMedia interface is:
 
-```
-uploadMedia port=3333 targetFolder=/MyMediaFolder
-```
+    uploadMedia port=3333 targetFolder=/MyMediaFolder
 
 | API           | uploadMedia port=3333 targetFolder=../media                                                                                              |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2232,9 +2050,7 @@ This function has the following parameters:
 
 An example of the getMetadata interface is:
 
-```
-getMetadata localStreamName=test noWrap=1
-```
+    getMetadata localStreamName=test noWrap=1
 
 | API           | getMetadata localStreamName=bunny                                                                                                                                                                                   | getMetadata localStreamName=bunny noWrap=1                                                                                      |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
@@ -2268,9 +2084,7 @@ This function has the following parameters:
 
 An example of the pushMetadata interface is:
 
-```
-pushMetadata localStreamName=test ip=127.0.0.1 port=8110
-```
+    pushMetadata localStreamName=test ip=127.0.0.1 port=8110
 
 | API           | pushMetadata localStreamName=test ip=127.0.0.1 port=8110                                                                                                                                                                                                          |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2303,9 +2117,7 @@ This function has the following parameter:
 
 An example of the shutdownMetadata interface is:
 
-```
-shutdownMetadata localStreamName=test
-```
+    shutdownMetadata localStreamName=test
 
 | API           | shutdownMetadata localStreamName=test                  |
 |---------------|--------------------------------------------------------|
@@ -2330,7 +2142,7 @@ An example of listStorage interface is:
 
 | API           | listStorage                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | {"data":[{"clientSideBuffer":15,"description":"Default media storage","enableStats":false,"externalSeekGenerator":false,"keyframeSeek":true,"maxPlaylistFileSize":4096,"mediaFolder":"\/home\/qatest\/Desktop\/evostreamms-1.7.0.4242-x86\_64-Ubuntu\_14.04\/media\/","metaFolder":"\/home\/qatest\/Desktop\/evostreamms-1.7.0.4242-x86\_64-Ubuntu\_14.04\/media\/","name":"0x00000001","seekGranularity":1000}],"description":"Available storages","status":"SUCCESS"} |
+| JSON Response | {"data":[{"clientSideBuffer":15,"description":"Default media storage","enableStats":false,"externalSeekGenerator":false,"keyframeSeek":true,"maxPlaylistFileSize":4096,"mediaFolder":"\/home\/qatest\/Desktop\/evostreamms-1.7.0.4242-x86_64-Ubuntu_14.04\/media\/","metaFolder":"\/home\/qatest\/Desktop\/evostreamms-1.7.0.4242-x86_64-Ubuntu_14.04\/media\/","name":"0x00000001","seekGranularity":1000}],"description":"Available storages","status":"SUCCESS"} |
 
 The JSON response contains the following details:
 
@@ -2435,9 +2247,7 @@ Will enable/disable RTMP authentication. This function has the following paramet
 
 An example of the setAuthentication interface is:
 
-```
-setAuthentication enabled=1
-```
+    setAuthentication enabled=1
 
 This enables authentication.
 
@@ -2464,9 +2274,7 @@ Change the log level for all log appenders. Default value in the system is set i
 
 An example of the setLogLevel interface is:
 
-```
-setLogLevel level=1
-```
+    setLogLevel level=1
 
 This sets the log level to 1. It means it will only output the error logs.
 
@@ -2565,9 +2373,7 @@ This function ends the server process, completely shutting down the EMS. This fu
 
 An example of the shutdownServer interface is:
 
-```
-shutdownServer
-```
+    shutdownServer
 
 | API           | shutdownServer                                                                                                         |
 |---------------|------------------------------------------------------------------------------------------------------------------------|
@@ -2582,13 +2388,9 @@ The JSON response contains the following details:
 
 To shutdown the Server enter the same command with the key parameter given:
 
-```
-shutdownServer key=GCY6IXniMf6NDOxY
-```
+    shutdownServer key=GCY6IXniMf6NDOxY
 
-
-Connections
------------
+## Connections
 
 The Connections API functions allow the user to manipulate and query the actual network connections between the EMS and other systems or applications. The most common connections will occur between the EMS and a media player. However, there are a variety of other situations where connections can occur, such as (but not limited to) connections between two EMS instances, or an EMS and another server.
 
@@ -2602,20 +2404,17 @@ Returns details about every active stream-related connection. This does not incl
 
 An example of the listConnections interface is:
 
-```
-listConnections excludeNonNetworkProtocols=0
-```
+    listConnections excludeNonNetworkProtocols=0
 
 This lists connections including non-networking protocols.
 
 | API           | listConnections excludeNonNetworkProtocols=0                                                                                                                                                                                                                                                                                                                                                                                        |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | {"data":[{"carrier":{"farIP":"54.239.131.147","farPort":1935,"id":86,"nearIP":"192.168.2.107","nearPort":45399,"rx":743036,"tx":3621,"type":"IOHT\_TCP\_CARRIER"},"pullSettings":{},"stack":[{"applicationId":0,"creationTimestamp":1448259304659.3040,"id":97,"isEnqueueForDelete":false,"queryTimestamp":1448259308424.6599,"type":"TCP"},…"txInvokes":5,"type":"OR"]}],"description":"Available connections","status":"SUCCESS"} |
+| JSON Response | {"data":[{"carrier":{"farIP":"54.239.131.147","farPort":1935,"id":86,"nearIP":"192.168.2.107","nearPort":45399,"rx":743036,"tx":3621,"type":"IOHT_TCP_CARRIER"},"pullSettings":{},"stack":[{"applicationId":0,"creationTimestamp":1448259304659.3040,"id":97,"isEnqueueForDelete":false,"queryTimestamp":1448259308424.6599,"type":"TCP"},…"txInvokes":5,"type":"OR"]}],"description":"Available connections","status":"SUCCESS"} |
 
 The JSON response contains the following details about each connection:
 
 -	data – The data to parse.
-
 	-	carrier – Details about the connection itself
 	-	farIP – The IP address of the distant party.
 	-	farPort – The port used by the distant party.
@@ -2637,9 +2436,7 @@ The JSON response contains the following details about each connection:
 	-	streams – Details about the streams that are using the connection (see fields in ListStreams).
 	-	txInvokes – Number of sent RTMP function invokes.
 	-	type – A descriptor for how the application is using the connection.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### listConnectionsIds
@@ -2656,9 +2453,7 @@ This interface has no parameters.
 The JSON response contains the following details:
 
 -	data – An array of connection IDs.
-
 -	description – Describes the result of parsing/executing the command.
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### getConnectionInfo
@@ -2671,9 +2466,7 @@ Returns a detailed set of information about a connection
 
 An example of the getConnectionInfo interface is:
 
-```
-getConnectionInfo id=144
-```
+    getConnectionInfo id=144
 
 This gets connection info about a connection with id of 144.
 
@@ -2684,7 +2477,6 @@ This gets connection info about a connection with id of 144.
 The JSON response contains the following details about one connection:
 
 -	data – The data to parse. See the **listConnections** command for a description of the fields
-
 	-	carrier - Details about the connection itself
 	-	stack - details about what internal resources are using the connection
 	-	applicationId - the ID of the internal application using the connection
@@ -2693,9 +2485,7 @@ The JSON response contains the following details about one connection:
 	-	isEnqueForDelete - Internal flag used for cleanup
 	-	queryTimeStamp - The time (in UNIX seconds) when this data was populated
 	-	type - A descriptor for how the application is using the connection
-
 -	description – Describes the result of parsing/executing the command
-
 -	status – `SUCCESS` if the command was parsed and executed successfully, `FAIL` if not.
 
 ### clientsConnected
@@ -2708,9 +2498,7 @@ Returns all the clients currently utilizing the EMS.
 
 An example of the clientsConnected interface is:
 
-```
-clientsConnected localStreamName=MyStream
-```
+    clientsConnected localStreamName=MyStream
 
 | API           | clientsConnected                                                                                      | clientsConnected localStreamName=MyStream                                                                                                             |
 |---------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2755,7 +2543,7 @@ The function has no parameter.
 
 | API           | listHttpStreamingSessions                                                                                                                                                                                                                                |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| JSON Response | { "data": [ { "clientIP": "127.0.0.1", "elapsedTime": 33, "sessionId": 1, "startTime": "2014-12-17T18-31-13", "targetFolder": "C:\\xampp\\htdocs\\mss\_group\\mystream" } ], "description":"Currently open HTTP streaming sessions", "status":"SUCCESS"} |
+| JSON Response | { "data": [ { "clientIP": "127.0.0.1", "elapsedTime": 33, "sessionId": 1, "startTime": "2014-12-17T18-31-13", "targetFolder": "C:\\xampp\\htdocs\\mss_group\\mystream" } ], "description":"Currently open HTTP streaming sessions", "status":"SUCCESS"} |
 
 The JSON response contains the following details:
 
@@ -2884,10 +2672,7 @@ This function has the following parameters:
 
 An example of the setConnectionsCountLimit interface is:
 
-```
-setConnectionsCountLimit count=500
-
-```
+    setConnectionsCountLimit count=500
 
 This sets the connection limit to 500.
 
@@ -2942,9 +2727,7 @@ This function has the following parameters:
 
 An example of the setBandwidthLimit interface is:
 
-```
-setBandwidthLimit in=400000 out=300000
-```
+    setBandwidthLimit in=400000 out=300000
 
 This sets the inbound bandwidth limit to 400,000, and the outbound bandwidth limit to 300,000 bytes/sec.
 
@@ -2966,8 +2749,7 @@ The JSON response contains the following details:
 
 A typical response in parsed JSON format is shown here: [setBandwidthLimit](http://pastebin.com/2sREJFL9)
 
-Services
---------
+## Services
 
 The services API functions allow the user to manipulate the Networking Services that are added to an EMS application. These services are also called acceptors.
 
@@ -3018,9 +2800,7 @@ This function has the following parameters:
 
 An example of the setConnectionsLimit interface is:
 
-```
-createService ip=0.0.0.0 port=9556 protocol=inboundRtmp
-```
+    createService ip=0.0.0.0 port=9556 protocol=inboundRtmp
 
 This creates an acceptor for every hosted IP to accept inbound RTMP requests on port 9556.
 
@@ -3054,9 +2834,7 @@ This function has the following parameters:
 
 An example of the enableService interface is:
 
-```
-enableService id=5 enable=0
-```
+    enableService id=5 enable=0
 
 This *disables* the service with an id of 5.
 
@@ -3096,9 +2874,7 @@ This function has the following parameters:
 
 An example of the shutdownService interface is:
 
-```
-shutdownService id=5
-```
+    shutdownService id=5
 
 This shuts down the service with an id of 5.
 
@@ -3125,8 +2901,7 @@ The JSON response contains the following details:
 
 A typical response in parsed JSON format is shown here: [shutdownService](http://pastebin.com/GrhXecsG)
 
-EMS Event Notification System
-=============================
+# EMS Event Notification System
 
 The Events created by the EMS are as follows:
 
@@ -3200,8 +2975,7 @@ The Events created by the EMS are as follows:
 
 The data definitions for each event can be found below. The specific schema for each event will depend up on the serializerType chosen for your Event Notification Sink (defined earlier in this document).
 
-Stream Event Definitions
-------------------------
+## Stream Event Definitions
 
 ### inStreamCreated, outStreamCreated, streamCreated
 
@@ -3229,53 +3003,51 @@ A new inbound, outbound or neutral stream has been created.
 
 Example:
 
-```
-appName: evostreamms
-audio:
-  bytesCount: 0
-  codec: AUNK
-  codecNumeric: 4707755069515235328
-  droppedBytesCount: 0
-  droppedPacketsCount: 0
-  packetsCount: 0
-bandwidth: 0
-connectionType: 1
-creationTimestamp: 1361182998409.229
-ip: 192.168.1.130
-name: test
-port: 49730
-pullSettings:
-  audioCodecBytes:
-  configId: 1
-  emulateUserAgent: EvoStream Media Server (www.evostream.com) player
-  forceTcp: false
-  isAudio: true
-  keepAlive: true
-  localStreamName: test
-  operationType: 1
-  pageUrl:
-  ppsBytes:
-  rtcpDetectionInterval: 10
-  spsBytes:
-  ssmIp:
-  swfUrl:
-  tcUrl:
-  tos: 256
-  ttl: 256
-  uri: rtmp://cp76072.live.edgefcs.net/live/MED-HQ-Flash@42814
-queryTimestamp: 1361182998424.829
-type: INR
-typeNumeric: 5282249572905648128
-uniqueId: 2
-upTime: 15.600
-video:
-  bytesCount: 0
-  codec: VUNK
-  codecNumeric: 6220964544311721984
-  droppedBytesCount: 0
-  droppedPacketsCount: 0
-  packetsCount: 0
-```
+    appName: evostreamms
+    audio:
+      bytesCount: 0
+      codec: AUNK
+      codecNumeric: 4707755069515235328
+      droppedBytesCount: 0
+      droppedPacketsCount: 0
+      packetsCount: 0
+    bandwidth: 0
+    connectionType: 1
+    creationTimestamp: 1361182998409.229
+    ip: 192.168.1.130
+    name: test
+    port: 49730
+    pullSettings:
+      audioCodecBytes:
+      configId: 1
+      emulateUserAgent: EvoStream Media Server (www.evostream.com) player
+      forceTcp: false
+      isAudio: true
+      keepAlive: true
+      localStreamName: test
+      operationType: 1
+      pageUrl:
+      ppsBytes:
+      rtcpDetectionInterval: 10
+      spsBytes:
+      ssmIp:
+      swfUrl:
+      tcUrl:
+      tos: 256
+      ttl: 256
+      uri: rtmp://cp76072.live.edgefcs.net/live/MED-HQ-Flash@42814
+    queryTimestamp: 1361182998424.829
+    type: INR
+    typeNumeric: 5282249572905648128
+    uniqueId: 2
+    upTime: 15.600
+    video:
+      bytesCount: 0
+      codec: VUNK
+      codecNumeric: 6220964544311721984
+      droppedBytesCount: 0
+      droppedPacketsCount: 0
+      packetsCount: 0
 
 ### inStreamClosed, outStreamClosed, streamClosed
 
@@ -3302,55 +3074,53 @@ An inbound, outbound or neutral stream has been closed.
 
 Example:
 
-```
-appName: evostreamms
-audio:
-  bytesCount: 190351
-  codec: AAAC
-  codecNumeric: 4702111241970122752
-  droppedBytesCount: 0
-  droppedPacketsCount: 0
-  packetsCount: 681
-bandwidth: 548
-connectionType: 1
-creationTimestamp: 1361182998409.229
-ip: 192.168.2.88
-name: test
-outStreamsUniqueIds:
-  0: 3
-port: 49730
-pullSettings:
-  audioCodecBytes:
-  configId: 1
-  emulateUserAgent: EvoStream Media Server (www.evostream.com) player
-  forceTcp: false
-  isAudio: true
-  keepAlive: true
-  localStreamName: test
-  operationType: 1
-  pageUrl:
-  ppsBytes:
-  rtcpDetectionInterval: 10
-  spsBytes:
-  ssmIp:
-  swfUrl:
-  tcUrl:
-  tos: 256
-  ttl: 256
-  uri: rtmp://cp76072.live.edgefcs.net/live/MED-HQ-Flash@42814
-queryTimestamp: 1361183030139.685
-type: INR
-typeNumeric: 5282249572905648128
-uniqueId: 2
-upTime: 31730.456
-video:
-  bytesCount: 2346717
-  codec: VH264
-  codecNumeric: 6217274493967007744
-  droppedBytesCount: 0
-  droppedPacketsCount: 0
-  packetsCount: 1147
-```
+    appName: evostreamms
+    audio:
+      bytesCount: 190351
+      codec: AAAC
+      codecNumeric: 4702111241970122752
+      droppedBytesCount: 0
+      droppedPacketsCount: 0
+      packetsCount: 681
+    bandwidth: 548
+    connectionType: 1
+    creationTimestamp: 1361182998409.229
+    ip: 192.168.2.88
+    name: test
+    outStreamsUniqueIds:
+      0: 3
+    port: 49730
+    pullSettings:
+      audioCodecBytes:
+      configId: 1
+      emulateUserAgent: EvoStream Media Server (www.evostream.com) player
+      forceTcp: false
+      isAudio: true
+      keepAlive: true
+      localStreamName: test
+      operationType: 1
+      pageUrl:
+      ppsBytes:
+      rtcpDetectionInterval: 10
+      spsBytes:
+      ssmIp:
+      swfUrl:
+      tcUrl:
+      tos: 256
+      ttl: 256
+      uri: rtmp://cp76072.live.edgefcs.net/live/MED-HQ-Flash@42814
+    queryTimestamp: 1361183030139.685
+    type: INR
+    typeNumeric: 5282249572905648128
+    uniqueId: 2
+    upTime: 31730.456
+    video:
+      bytesCount: 2346717
+      codec: VH264
+      codecNumeric: 6217274493967007744
+      droppedBytesCount: 0
+      droppedPacketsCount: 0
+      packetsCount: 1147
 
 ### inStreamCodecsUpdated, outStreamCodecsUpdated, streamCodecsUpdated
 
@@ -3377,53 +3147,52 @@ A new inbound, outbound or neutral stream has been identified with a specific co
   - **video** – Statistics about the video stream.
 
 Example:
-```
-appName: evostreamms
-audio:
-  bytesCount: 0
-  codec: AUNK
-  codecNumeric: 4707755069515235328
-  droppedBytesCount: 0
-  droppedPacketsCount: 0
-  packetsCount: 0
-bandwidth: 548
-connectionType: 1
-creationTimestamp: 1361182998409.229
-ip: 192.168.2.88
-name: test
-port: 49730
-pullSettings:
-  audioCodecBytes:
-  configId: 1
-  emulateUserAgent: EvoStream Media Server (www.evostream.com) player
-  forceTcp: false
-  isAudio: true
-  keepAlive: true
-  localStreamName: test
-  operationType: 1
-  pageUrl:
-  ppsBytes:
-  rtcpDetectionInterval: 10
-  spsBytes:
-  ssmIp:
-  swfUrl:
-  tcUrl:
-  tos: 256
-  ttl: 256
-  uri: rtmp://cp76072.live.edgefcs.net/live/MED-HQ-Flash@42814
-queryTimestamp: 1361182998456.029
-type: INR
-typeNumeric: 5282249572905648128
-uniqueId: 2
-upTime: 46.800
-video:
-  bytesCount: 56
-  codec: VH264
-  codecNumeric: 6217274493967007744
-  droppedBytesCount: 0
-  droppedPacketsCount: 0
-  packetsCount: 1
-```
+
+    appName: evostreamms
+    audio:
+      bytesCount: 0
+      codec: AUNK
+      codecNumeric: 4707755069515235328
+      droppedBytesCount: 0
+      droppedPacketsCount: 0
+      packetsCount: 0
+    bandwidth: 548
+    connectionType: 1
+    creationTimestamp: 1361182998409.229
+    ip: 192.168.2.88
+    name: test
+    port: 49730
+    pullSettings:
+      audioCodecBytes:
+      configId: 1
+      emulateUserAgent: EvoStream Media Server (www.evostream.com) player
+      forceTcp: false
+      isAudio: true
+      keepAlive: true
+      localStreamName: test
+      operationType: 1
+      pageUrl:
+      ppsBytes:
+      rtcpDetectionInterval: 10
+      spsBytes:
+      ssmIp:
+      swfUrl:
+      tcUrl:
+      tos: 256
+      ttl: 256
+      uri: rtmp://cp76072.live.edgefcs.net/live/MED-HQ-Flash@42814
+    queryTimestamp: 1361182998456.029
+    type: INR
+    typeNumeric: 5282249572905648128
+    uniqueId: 2
+    upTime: 46.800
+    video:
+      bytesCount: 56
+      codec: VH264
+      codecNumeric: 6217274493967007744
+      droppedBytesCount: 0
+      droppedPacketsCount: 0
+      packetsCount: 1
 
 ### audioFeedStopped
 
@@ -3438,8 +3207,7 @@ Event triggered when a video packet is lost.
 - localStreamName – Name of the stream which lost the video.
 
 
-Adaptive Streaming/File-based Streaming Events
-----------------------------------------------
+## Adaptive Streaming/File-based Streaming Events
 
 ### hlsChunkCreated, hdsChunkCreated, mssChunkCreated, dashChunkCreated
 
@@ -3447,24 +3215,20 @@ Event triggered when an HLS/HDS/MSS/DASH chunk file was opened on disk.
   - **file** – Name of the HLS/HDS/MSS/DASH chunk file that was opened.
 
 Example for HLS:
-```
-file: /var/evo-webroot/hls/stream1/segment\_1362025844863\_1362025844863\_14.ts
-```
+
+    file: /var/evo-webroot/hls/stream1/segment_1362025844863_1362025844863_14.ts
 
 Example for HDS:
-```
-file: /var/evo-webroot/hds/stream1/f4vSeg1-Frag1
-```
+
+    file: /var/evo-webroot/hds/stream1/f4vSeg1-Frag1
 
 Example for MSS:
-```
-file: /var/evo-webroot/mss/stream1/video/524288/1413797685000.m4s
-```
+
+    file: /var/evo-webroot/mss/stream1/video/524288/1413797685000.m4s
 
 Example for DASH:
-```
-file: /var/evo-webroot/dash/stream1/video/229376/1416464032000.fmp4
-```
+
+    file: /var/evo-webroot/dash/stream1/video/229376/1416464032000.fmp4
 
 ### hlsChunkClosed, hdsChunkClosed, mssChunkClosed, dashChunkClosed
 
@@ -3472,24 +3236,20 @@ Event triggered when an HLS/HDS/MSS/DASH chunk file was closed on disk.
   - **file** – Name of the HLS/HDS/MSS/DASH chunk file that was closed.
 
 Example for HLS:
-```
-file: /var/evo-webroot/hls/stream1/segment\_1362025844863\_1362025844863\_14.ts
-```
+
+    file: /var/evo-webroot/hls/stream1/segment_1362025844863_1362025844863_14.ts
 
 Example for HDS:
-```
-file: /var/evo-webroot/hds/stream1/f4vSeg1-Frag1
-```
+
+    file: /var/evo-webroot/hds/stream1/f4vSeg1-Frag1
 
 Example for MSS:
-```
-file: /var/evo-webroot/mss/stream1/video/524288/1413797685000.m4s
-```
+
+    file: /var/evo-webroot/mss/stream1/video/524288/1413797685000.m4s
 
 Example for DASH:
-```
-file: /var/evo-webroot/dash/stream1/video/229376/1416464032000.fmp4
-```
+
+    file: /var/evo-webroot/dash/stream1/video/229376/1416464032000.fmp4
 
 ### hlsChunkError, hdsChunkError, mssChunkError, dashChunkError
 
@@ -3497,10 +3257,8 @@ Event triggered when an error occurs while writing an HLS/HDS/MSS/DASH chunk fil
   - **error** – Description of the error encountered.
 
 Example for HLS:
-```
-error: Could not write video sample to /var/evo-webroot/hls/stream1/
-segment\_1362025844863\_1362025844863\_14.ts
-```
+
+    error: Could not write video sample to /var/evo-webroot/hls/stream1/segment_1362025844863_1362025844863_14.ts
 
 ### hlsChildPlaylistUpdated, hdsChildPlaylistUpdated
 
@@ -3508,14 +3266,12 @@ Event triggered when an HLS or HDS stream specific playlist file was modified
   - **file** – Name of the HLS or HDS playlist that was updated
 
 Example for HLS:
-```
-file: /var/evo-webroot/hls/stream1/playlist.m3u8
-```
+
+    file: /var/evo-webroot/hls/stream1/playlist.m3u8
 
 Example for HDS:
-```
-file: /var/evo-webroot/hds/stream1/stream1.f4m
-```
+
+    file: /var/evo-webroot/hds/stream1/stream1.f4m
 
 ### hlsMasterPlaylistUpdated, hdsMasterPlaylistUpdated
 
@@ -3523,14 +3279,12 @@ Event triggered when an HLS or HDS group playlist file was modified
   - **file** – Name of the HLS or HDS playlist that was updated
 
 Example for HLS:
-```
-file: /var/evo-webroot/hls/playlist.m3u8
-```
+
+    file: /var/evo-webroot/hls/playlist.m3u8
 
 Example for HDS:
-```
-file: /var/evo-webroot/hds/manifest.f4m
-```
+
+    file: /var/evo-webroot/hds/manifest.f4m
 
 ### mssPlaylistUpdated, dashPlaylistUpdated
 
@@ -3538,17 +3292,14 @@ Event triggered when an MSS/DASH stream specific playlist file was modified
   - **file** – Name of the MSS/DASH manifest that was updated
 
 Example for MSS:
-```
-file: /var/evo-webroot/mss/stream1/manifest.f4m
-```
+
+    file: /var/evo-webroot/mss/stream1/manifest.f4m
 
 Example for DASH:
-```
-file: /var/evo-webroot/dash/stream1/manifest.mpd
-```
 
-Web Server Events
------------------
+    file: /var/evo-webroot/dash/stream1/manifest.mpd
+
+## Web Server Events
 
 ### streamingSessionStarted
 
@@ -3576,8 +3327,7 @@ This event is created right after an HTTP file download has completed.
   - **elapsed** – The number of seconds since the session started
 
 
-API Based Events
-----------------
+## API Based Events
 
 ### cliRequest
 
@@ -3586,11 +3336,10 @@ The EMS has received a Runtime API command.
   - **parameters** – Optional parameters for the CLI command.
 
 Example:
-```
-command: launchProcess
-parameters:
-  fullBinaryPath: d:\demoplay.bat
-```
+
+    command: launchProcess
+    parameters:
+      fullBinaryPath: d:\demoplay.bat
 
 ### cliResponse
 
@@ -3600,16 +3349,15 @@ The response generated by the EMS for the last Runtime API command.
   - **status** – SUCCESS or FAIL. The result of parsing (not necessarily executing) the CLI command.
 
 Example:
-```
-data:
-  arguments:
-  configId: 1
-  fullBinaryPath: d:\demoplay.bat
-  keepAlive: true
-  operationType: 6
-description: Process enqueued for start
-status: SUCCESS
-```
+
+    data:
+      arguments:
+      configId: 1
+      fullBinaryPath: d:\demoplay.bat
+      keepAlive: true
+      operationType: 6
+    description: Process enqueued for start
+    status: SUCCESS
 
 ### processStarted, processStopped
 
@@ -3621,13 +3369,12 @@ A process has been started/stopped at the request of the launchProcess API comma
   - **operationType** – 0:STANDARD, 1:PUSH, 2:PULL, 3:HLS, 4:HDS, 5:RECORD, or 6:LAUNCHPROCESS.
 
 Example:
-```
-arguments:
-configId: 1
-fullBinaryPath: d:\demoplay.bat
-keepAlive: true
-operationType: 6
-```
+
+    arguments:
+    configId: 1
+    fullBinaryPath: d:\demoplay.bat
+    keepAlive: true
+    operationType: 6
 
 ### timerCreated
 
@@ -3637,11 +3384,10 @@ A new timer has been created via the setTimer API command
   - **value** – The time value for the timer.
 
 Example:
-```
-timerId: 9
-triggerCount: 0
-value: 100
-```
+
+    timerId: 9
+    triggerCount: 0
+    value: 100
 
 ### timerTriggered
 
@@ -3651,11 +3397,10 @@ A timer has triggered.
   - **value** – The time value for the timer.
 
 Example:
-```
-timerId: 9
-triggerCount: 0
-value: 100
-```
+
+    timerId: 9
+    triggerCount: 0
+    value: 100
 
 ### timerClosed
 
@@ -3665,14 +3410,12 @@ A timer has been closed and will not create any new timerTriggered events.
   - **value** – The time value for the timer.
 
 Example:
-```
-timerId: 9
-triggerCount: 2
-value: 100
-```
 
-Connection Based Events
------------------------
+    timerId: 9
+    triggerCount: 2
+    value: 100
+
+## Connection Based Events
 
 ### protocolRegisteredToApp
 
@@ -3681,16 +3424,15 @@ A connection has been fully established.
   - **protocolType** – Protocol type (see Table of Protocol Types below).
 
 Example:
-```
-customParameters:
-  ip: 127.0.0.1
-  port: 1112
-  protocol: inboundJsonCli
-  sslCert:
-  sslKey:
-  useLengthPadding: true
-protocolType: IJSONCLI
-```
+
+    customParameters:
+      ip: 127.0.0.1
+      port: 1112
+      protocol: inboundJsonCli
+      sslCert:
+      sslKey:
+      useLengthPadding: true
+    protocolType: IJSONCLI
 
 ### protocolUnregisteredFromApp
 
@@ -3700,16 +3442,15 @@ A connection has been disconnected.
   - **protocolType** – Protocol type (see Table of Protocol Types below).
 
 Example:
-```
-customParameters:
-  ip: 127.0.0.1
-  port: 1112
-  protocol: inboundJsonCli
-  sslCert:
-  sslKey:
-  useLengthPadding: true
-protocolType: IJSONCLI
-```
+
+    customParameters:
+      ip: 127.0.0.1
+      port: 1112
+      protocol: inboundJsonCli
+      sslCert:
+      sslKey:
+      useLengthPadding: true
+    protocolType: IJSONCLI
 
 ### carrierCreated
 
@@ -3719,8 +3460,7 @@ Some IO handler, such as a TCP socket, has been created.
 
 Some IO handler, such as a UDP socket, has been closed.
 
-Application Based Events
-------------------------
+## Application Based Events
 
 ### applicationStart, applicationStop
 
@@ -3731,90 +3471,88 @@ These events are created right after the internal EMS application has started an
 
 Example:
 
-```
-config:
-  acceptors:
-    0:
-      ip: 127.0.0.1
-      port: 1112
-      protocol: inboundJsonCli
-      sslCert:
-      sslKey:
-      useLengthPadding: true
-    1:
-      ip: 0.0.0.0
-      port: 7777
-      protocol: inboundHttpJsonCli
-      sslCert:
-      sslKey:
-    2:
-      ip: 0.0.0.0
-      port: 1935
-      protocol: inboundRtmp
-      sslCert:
-      sslKey:
-    3:
-      clustering: true
-      ip: 127.0.0.1
-      port: 1936
-      protocol: inboundRtmp
-      sslCert:
-      sslKey:
-    4:
-      clustering: true
-      ip: 127.0.0.1
-      port: 1113
-      protocol: inboundBinVariant
-      sslCert:
-      sslKey:
-    5:
-      ip: 0.0.0.0
-      port: 5544
-      protocol: inboundRtsp
-      sslCert:
-      sslKey:
-    6:
-      ip: 0.0.0.0
-      port: 6666
-      protocol: inboundLiveFlv
-      sslCert:
-      sslKey:
-      waitForMetadata: true
-  aliases:
-    0: er
-    1: live
-    2: vod
-  appDir: C:\emsdemo\config\
-  authPersistenceFile: ..\config\auth.xml
-  bandwidthLimitPersistenceFile: ..\config\bandwidthlimits.xml
-  connectionsLimitPersistenceFile: ..\config\connlimits.xml
-  default: true
-  description: EVOSTREAM MEDIA SERVER
-  eventLogger:
-    sinks:
-      1:
-        filename: ..\logs\events.txt
-        format: text
-        type: file
-  hasStreamAliases: false
-  initApplicationFunction: GetApplication_evostreamms
-  initFactoryFunction: GetFactory_evostreamms
-  library:
-  maxRtmpOutBuffer: 524288
-  mediaStorage:
-    1:
-      description: Default media storage
-      mediaFolder: ../media
-  metaFileGenerator: false
-  name: evostreamms
-  protocol: dynamiclinklibrary
-  pushPullPersistenceFile: ..\config\pushPullSetup.xml
-  rtcpDetectionInterval: 15
-  streamsExpireTimer: 10
-  validateHandshake: false
-id: 1
-name: evostreamms
-```
+    config:
+      acceptors:
+        0:
+          ip: 127.0.0.1
+          port: 1112
+          protocol: inboundJsonCli
+          sslCert:
+          sslKey:
+          useLengthPadding: true
+        1:
+          ip: 0.0.0.0
+          port: 7777
+          protocol: inboundHttpJsonCli
+          sslCert:
+          sslKey:
+        2:
+          ip: 0.0.0.0
+          port: 1935
+          protocol: inboundRtmp
+          sslCert:
+          sslKey:
+        3:
+          clustering: true
+          ip: 127.0.0.1
+          port: 1936
+          protocol: inboundRtmp
+          sslCert:
+          sslKey:
+        4:
+          clustering: true
+          ip: 127.0.0.1
+          port: 1113
+          protocol: inboundBinVariant
+          sslCert:
+          sslKey:
+        5:
+          ip: 0.0.0.0
+          port: 5544
+          protocol: inboundRtsp
+          sslCert:
+          sslKey:
+        6:
+          ip: 0.0.0.0
+          port: 6666
+          protocol: inboundLiveFlv
+          sslCert:
+          sslKey:
+          waitForMetadata: true
+      aliases:
+        0: er
+        1: live
+        2: vod
+      appDir: C:\emsdemo\config\
+      authPersistenceFile: ..\config\auth.xml
+      bandwidthLimitPersistenceFile: ..\config\bandwidthlimits.xml
+      connectionsLimitPersistenceFile: ..\config\connlimits.xml
+      default: true
+      description: EVOSTREAM MEDIA SERVER
+      eventLogger:
+        sinks:
+          1:
+            filename: ..\logs\events.txt
+            format: text
+            type: file
+      hasStreamAliases: false
+      initApplicationFunction: GetApplication_evostreamms
+      initFactoryFunction: GetFactory_evostreamms
+      library:
+      maxRtmpOutBuffer: 524288
+      mediaStorage:
+        1:
+          description: Default media storage
+          mediaFolder: ../media
+      metaFileGenerator: false
+      name: evostreamms
+      protocol: dynamiclinklibrary
+      pushPullPersistenceFile: ..\config\pushPullSetup.xml
+      rtcpDetectionInterval: 15
+      streamsExpireTimer: 10
+      validateHandshake: false
+    id: 1
+    name: evostreamms
 
 ### serverStarted
 
@@ -3824,8 +3562,7 @@ The server has started.
 
 The server is just about to stop.
 
-Web Server Events
------------------
+## Web Server Events
 
 ### streamingSessionStarted
 
@@ -3852,8 +3589,7 @@ This event is created right after an HTTP file download has completed.
 - **startTime** – Time session started.
 - **elapsed** – The number of seconds since the session started
 
-Event Table of Protocol Types
------------------------------
+## Event Table of Protocol Types
 
 | **Protocol Group**   | **TAG**      | **Protocol Type**      |
 |----------------------|--------------|------------------------|
