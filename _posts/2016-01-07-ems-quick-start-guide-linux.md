@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "EMS Quick Start Guide for Linux"
-date:   2016-01-01 00:00:00 +0800
+date:   2016-01-01 00:00:00 +0000
 categories: jekyll update
 ---
 
@@ -68,7 +68,6 @@ Steps 2 and 3 must be executed only once
   - RedHat based Linux distributions (CentOS, Fedora, RHEL)  
 
         # yum install evostream-mediaserver
-
 
 ## License Installation
 
