@@ -1,8 +1,9 @@
 ---
+title: Quick Start Guide for Linux
 layout: post
-title:  "EMS Quick Start Guide for Linux"
 date:   2016-01-01 00:00:00 +0000
 categories: jekyll update
+permalink: quickstartlinux
 ---
 
 ## Purpose

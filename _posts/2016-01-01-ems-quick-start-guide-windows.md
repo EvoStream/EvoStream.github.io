@@ -1,8 +1,9 @@
 ---
+title: Quick Start Guide for Windows
 layout: post
-title:  "EMS Quick Start Guide for Windows"
 date:   2016-01-01 00:00:00 +0000
 categories: jekyll update
+permalink: quickstartwindows
 ---
 
 ## Purpose
