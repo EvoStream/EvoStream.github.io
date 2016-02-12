@@ -4,7 +4,7 @@ title: Search
 permalink: /search/
 ---
 
-<p>Enter a search string then click Search</p>
+<p>Enter a search string then press Enter or click Search</p>
 
 <script>
 function googleSearch() {
