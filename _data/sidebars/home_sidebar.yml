@@ -1,0 +1,34 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: Home
+#  version: 1.0
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage
+      output: pdf
+      type: frontmatter
+
+
+  - title: EvoStream Media Server
+    output: web, pdf
+
+    folderitems:
+    - title: Overview
+      url: /home_overview.html
+      output: web, pdf
+
+    - title: Release Notes
+      url: /home_releasenotes.html
+      output: web, pdf
