@@ -1,0 +1,391 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: API Guide
+#  version: 1.0
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+
+    folderitems:
+    - title:
+      url: /titlepage
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage
+      output: pdf
+      type: frontmatter
+
+  - title: Discussion
+    output: web, pdf
+
+    folderitems:
+    - title: Overview
+      url: /overview.html
+      output: web, pdf
+
+
+  - title: Streams API
+    output: web, pdf
+
+    folderitems:
+    - title: pullStream
+      url: /pullStream.html
+      output: web, pdf
+
+    - title: pushStream
+      url: /pushStream.html
+      output: web, pdf
+
+    - title: createHLSStream
+      url: /createHLSStream.html
+      output: web, pdf
+
+    - title: createDASHStream
+      url: /createDASHStream.html
+      output: web, pdf
+
+    - title: createHDSStream
+      url: /createHDSStream.html
+      output: web, pdf
+
+    - title: createMSSStream
+      url: /createMSSStream.html
+      output: web, pdf
+
+    - title: record
+      url: /record.html
+      output: web, pdf
+
+    - title: transcode
+      url: /transcode.html
+      output: web, pdf
+
+    - title: listStreamsIds
+      url: /listStreamsIds.html
+      output: web, pdf
+
+    - title: getStreamInfo
+      url: /getStreamInfo.html
+      output: web, pdf
+
+    - title: listStreams
+      url: /listStreams.html
+      output: web, pdf
+
+    - title: getStreamsCount
+      url: /getStreamsCount.html
+      output: web, pdf
+
+    - title: shutdownStream
+      url: /shutdownStream.html
+      output: web, pdf
+
+    - title: listConfig
+      url: /listConfig.html
+      output: web, pdf
+
+    - title: removeConfig
+      url: /removeConfig.html
+      output: web, pdf
+
+    - title: getConfigInfo
+      url: /getConfigInfo.html
+      output: web, pdf
+
+    - title: isStreamRunning
+      url: /isStreamRunning.html
+      output: web, pdf
+
+
+
+  - title: Aliasing API
+    output: web, pdf
+
+    folderitems:
+
+    - title: addStreamAlias
+      url: /addStreamAlias.html
+      output: web, pdf
+
+    - title: listStreamAliases
+      url: /listStreamAliases.html
+      output: web, pdf
+
+    - title: removeStreamAlias
+      url: /removeStreamAlias.html
+      output: web, pdf
+
+    - title: flushStreamAliases
+      url: /flushStreamAliases.html
+      output: web, pdf
+
+    - title: addGroupNameAlias
+      url: /addGroupNameAlias.html
+      output: web, pdf
+
+    - title: getGroupNameByAlias
+      url: /getGroupNameByAlias.html
+      output: web, pdf
+
+    - title: listGroupNameAliases
+      url: /listGroupNameAliases.html
+      output: web, pdf
+
+    - title: removeGroupNameAliases
+      url: /removeGroupNameAliases.html
+      output: web, pdf
+
+    - title: flushGroupNameAliases
+      url: /flushGroupNameAliases.html
+      output: web, pdf
+
+    - title: listHttpStreamingSessions
+      url: /listHttpStreamingSessions.html
+      output: web, pdf
+
+    - title: createIngestPoint
+      url: /createIngestPoint.html
+      output: web, pdf
+
+    - title: removeIngestPoint
+      url: /removeIngestPoint.html
+      output: web, pdf
+
+    - title: listIngestPoints
+      url: /listIngestPoints.html
+      output: web, pdf
+
+
+
+
+  - title: Utility and Feature API Functions
+    output: web, pdf
+
+    folderitems:
+
+
+    - title: startWebRTC
+      url: /startWebRTC.html
+      output: web, pdf
+
+    - title: stopWebRTC
+      url: /stopWebRTC.html
+      output: web, pdf
+
+    - title: launchProcess
+      url: /launchProcess.html
+      output: web, pdf
+
+    - title: setTimer
+      url: /setTimer.html
+      output: web, pdf
+
+    - title: listTimers
+      url: /listTimers.html
+      output: web, pdf
+
+    - title: removeTimer
+      url: /removeTimer.html
+      output: web, pdf
+
+    - title: generateLazyPullFile
+      url: /generateLazyPullFile.html
+      output: web, pdf
+
+    - title: generateServerPlaylist
+      url: /generateServerPlaylist.html
+      output: web, pdf
+
+    - title: insertPlaylistItem
+      url: /insertPlaylistItem.html
+      output: web, pdf
+
+    - title: uploadMedia
+      url: /uploadMedia.html
+      output: web, pdf
+
+    - title: getMetadata
+      url: /getMetadata.html
+      output: web, pdf
+
+    - title: pushMetadata
+      url: /pushMetadata.html
+      output: web, pdf
+
+    - title: shutdownMetadata
+      url: /shutdownMetadata.html
+      output: web, pdf
+
+    - title: listStorage
+      url: /listStorage.html
+      output: web, pdf
+
+    - title: addStorage
+      url: /addStorage.html
+      output: web, pdf
+
+    - title: removeStorage
+      url: /removeStorage.html
+      output: web, pdf
+
+    - title: setAuthentication
+      url: /setAuthentication.html
+      output: web, pdf
+
+    - title: setLogLevel
+      url: /setLogLevel.html
+      output: web, pdf
+
+    - title: getLicenseId
+      url: /getLicenseId.html
+      output: web, pdf
+
+    - title: version
+      url: /version.html
+      output: web, pdf
+
+    - title: quit
+      url: /quit.html
+      output: web, pdf
+
+    - title: help
+      url: /help.html
+      output: web, pdf
+
+    - title: shutdownServer
+      url: /shutdownServer.html
+      output: web, pdf
+
+
+  - title: Connections API
+    output: web, pdf
+
+    folderitems:
+
+
+    - title: listInboundStreamNames
+      url: /listInboundStreamNames.html
+      output: web, pdf
+
+    - title: listInboundStreams
+      url: /listInboundStreams.html
+      output: web, pdf
+
+    - title: getInboundStreamsCount
+      url: /getInboundStreamsCount.html
+      output: web, pdf
+
+    - title: getConnectionInfo
+      url: /getConnectionInfo.html
+      output: web, pdf
+
+    - title: listConnections
+      url: /listConnections.html
+      output: web, pdf
+
+    - title: clientsConnected
+      url: /clientsConnected.html
+      output: web, pdf
+
+    - title: httpClientsConnected
+      url: /httpClientsConnected.html
+      output: web, pdf
+
+    - title: getExtendedConnectionCounters
+      url: /getExtendedConnectionCounters.html
+      output: web, pdf
+
+    - title: resetMaxFdCounters
+      url: /resetMaxFdCounters.html
+      output: web, pdf
+
+    - title: resetTotalFdCounters
+      url: /resetTotalFdCounters.html
+      output: web, pdf
+
+    - title: getConnectionsCount
+      url: /getConnectionsCount.html
+      output: web, pdf
+
+    - title: getConnectionsCountLimit
+      url: /getConnectionsCountLimit.html
+      output: web, pdf
+
+    - title: setConnectionsCountLimit
+      url: /setConnectionsCountLimit.html
+      output: web, pdf
+
+    - title: getBandwidth
+      url: /getBandwidth.html
+      output: web, pdf
+
+    - title: setBandwidthLimit
+      url: /setBandwidthLimit.html
+      output: web, pdf
+
+ 
+  - title: Services API
+    output: web, pdf
+
+    folderitems:
+
+
+    - title: listServices
+      url: /listServices.html
+      output: web, pdf
+
+    - title: createService
+      url: /createService.html
+      output: web, pdf
+
+    - title: enableService
+      url: /enableService.html
+      output: web, pdf
+
+    - title: shutdownService
+      url: /shutdownService.html
+      output: web, pdf
+
+    - title: addMetadataListener
+      url: /addMetadataListener.html
+      output: web, pdf
+
+    - title: listMetadataListeners
+      url: /listMetadataListeners.html
+      output: web, pdf
+
+
+  - title: Event Notification System
+    output: web, pdf
+
+    folderitems:
+    - title: Overview
+      url: /eventoverview.html
+      output: web, pdf
+
+    - title: Configuring Event Notifications
+      url: /eventnotification.html
+      output: web, pdf
+
+    - title: Event Sinks
+      url: /eventsinks.html
+      output: web, pdf
+
+    - title: Application vs. Server Events
+      url: /eventappvsserver.html
+      output: web, pdf
+
+    - title: Event List
+      url: /eventlist.html
+      output: web, pdf
+
+    - title: Event Definitions
+      url: /eventdefinition.html
+      output: web, pdf
+

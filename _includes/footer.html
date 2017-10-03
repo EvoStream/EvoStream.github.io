@@ -1,38 +1,45 @@
-<footer class="site-footer">
+<footer>
+    <div class="container">
+            <div class="row row-footer">
 
-  <div class="wrapper">
+            <div class="col-lg-4 copyright col-md-4 col-sm-5">
+               <p data-icon="false" ><a href="https://evostream.com/" data-icon="false" ><img src="images/width-200.png" alt="Company logo" /></a></p>
+               &copy;2017 EvoStream Inc. All rights reserved. <br />
 
-    <h2 class="footer-heading"><a href="{{ site.url }}">{{ site.index_title }}</a></h2>
+                </div> 
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <p class="widget-title">
+                        <span>ABOUT US</span>
+                    </p>
 
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>{{ site.email_name }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        </ul>
-      </div>
+                    <div class="menu">
+                    <ul>
+                        <li class="fa fa-linkedin"><a href="">Linkedln</a></li>
+                        <li class="fa fa-twitter"><a href="">Twitter</a></li>
+                        <li class="fa fa-lock"><a href="">Privacy Policy</a></li>
+                        <li class="fa fa-book"><a href="">Glossary</a></li>
+                    </ul>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-4">
+                   <p class="widget-title">
+                        <span>CONTACT US</span>
+                    </p>
 
-      <div class="footer-col footer-col-2">
-        <ul class="social-media-list">
-          {% if site.github_username %}
-          <li>
-            {% include icon-github.html username=site.github_username %}
-          </li>
-          {% endif %}
+                    <div class="menu">
+                    <ul>
+                        <li class="fa fa-envelope-o"><a>salesupport@evostream.com</a></li>
+                        <li class="fa fa-phone"><a href="">+1 858-454-9393</a></li>
+                        <li class="fa fa-map-marker"><a>1010 Turquoise Street, Suite 101, San Diego, CA 92109, USA</a></li>                        
+                    </ul>
+                    </div>
+                </div>
 
-          {% if site.twitter_username %}
-          <li>
-            {% include icon-twitter.html username=site.twitter_username %}
-          </li>
-          {% endif %}
-        </ul>
-      </div>
 
-      <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
-      </div>
+
+
+
+               
+            </div>
     </div>
-
-  </div>
-
 </footer>
