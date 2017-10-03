@@ -1,23 +1,22 @@
 ---
-title: Search EvoStream Documentation
-keywords: EMS
-sidebar: home_sidebar
-permalink: search.html
-toc: false
+layout: page
+title: Search
+permalink: /search/
 ---
 
-<div >
-    <script>
-      (function() {
-        var cx = '000546037668056785180:4hkzbdbjuyk';
-        var gcse = document.createElement('script');
-        gcse.type = 'text/javascript';
-        gcse.async = true;
-        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(gcse, s);
-      })();
-    </script>
-    <gcse:search></gcse:search>
-</div>
+<p>Enter a search string then press Enter or click Search</p>
 
+<script>
+function googleSearch() {
+  var searchString = document.getElementById("searchString").value;
+  var prefix = "https://www.google.com/search?q=";
+  var suffix = "%20site:docs.evostream.com";
+  searchURL = prefix + encodeURI(searchString) + suffix;
+  window.open(searchURL);
+}
+</script>
+
+<form onChange="googleSearch()">
+  <input type="text" id="searchString" size="50"><br><br>
+  <input type="button" onClick="googleSearch()" value="Search"><br>
+</form> 
