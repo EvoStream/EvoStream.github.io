@@ -1,0 +1,86 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: EvoWebservices
+#  version: 1.0
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage
+      output: pdf
+      type: frontmatter
+
+  - title: Discussion
+    output: web, pdf
+
+    folderitems:
+    - title: Overview
+      url: /evowebservices_overview.html
+      output: web, pdf
+
+  - title: Installation
+    output: web, pdf
+
+    folderitems:
+    - title: Using Node.js
+      url: /evowebservices_nodeinstall.html
+      output: web, pdf
+
+    - title: Using PHP
+      url: /evowebservices_phpinstall.html
+      output: web, pdf
+
+  - title: Configuration
+    output: web, pdf
+
+    folderitems:
+    - title: Configuring EMS Event Notifications
+      url: /evowebservices_eventconfiguration.html
+      output: web, pdf
+
+    - title: Configuring the EMS Web Service Plugins
+      url: /evowebservices_pluginconfiguration.html
+      output: web, pdf
+
+
+  - title: Web Service Plugins
+    output: web, pdf
+
+    folderitems:
+    - title: Stream AutoRouting
+      url: /evowebservices_streamautorouting.html
+      output: web, pdf
+
+    - title: Stream Recorder
+      url: /evowebservices_streamrecorder.html
+      output: web, pdf
+
+    - title: Stream Load Balancer
+      url: /evowebservices_streamloadbalancer.html
+      output: web, pdf
+
+    - title: Amazon S3 HLS Upload
+      url: /evowebservices_HLSupload.html
+      output: web, pdf
+
+    - title: Amazon S3 DASH Upload
+      url: /evowebservices_DASHupload.html
+      output: web, pdf
+
+    - title: Amazon S3 HDS Upload
+      url: /evowebservices_HDSupload.html
+      output: web, pdf
+
+    - title: Event Notification System
+      url: /evowebservices_event.html
+      output: web, pdf
